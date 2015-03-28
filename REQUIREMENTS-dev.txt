@@ -1,0 +1,11 @@
+-r REQUIREMENTS.txt
+
+coverage
+pep8
+flake8
+
+# documentation
+Sphinx
+
+# pdb plus plus
+pdbpp

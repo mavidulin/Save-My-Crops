@@ -1,0 +1,4 @@
+*.pyc
+django_project/core/settings/secret.py
+.Trash-1000/
+django_project/media/
