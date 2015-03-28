@@ -1,20 +1,92 @@
-{% load compressed %}
+{% load pipeline %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>{% block title%} Generic page {% endblock title%}</title>
+    <title>{% block title%} Crop Alert {% endblock title%}</title>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    {% compressed_css 'contrib' %}
+     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    {% stylesheet 'contrib' %}
 </head>
 
 <body>
+
+<!-- navbar -->
+<nav class="top-bar" data-topbar role="navigation">
+    <ul class="title-area">
+        <li class="name">
+            <h1>
+                <!-- <a href="/"><img src="/static/img/logo.png" ></a> -->
+                <a href="/">Crop Alert Logo</a>
+            </h1>
+        </li>
+        <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+        <li class="toggle-topbar menu-icon">
+            <a href="#"><span>Menu</span></a>
+        </li>
+    </ul>
+    <section class="top-bar-section">
+        <!-- Left Nav Section -->
+        <ul class="left">
+            <li class="divider"></li>
+            <li>
+                <a href="{% url 'homepage' %}">Home</a>
+            </li>
+            <li class="divider"></li>
+            <li>
+                <a href="{% url 'map' %}">Explore Map</a>
+            </li>
+            <li class="divider"></li>
+            <li>
+                <a href="#">Pests</a>
+            </li>
+            <li class="divider"></li>
+            <li>
+                <a href="#">Diseases</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="divider"></li>
+            <li>
+                <a href="{% url 'my-crop-fields' %}">My Crop Fields</a>
+            </li>
+            <li class="divider"></li>
+            <li>
+                <a href="{% url 'my-entries' %}">My Entires</a>
+            </li>
+            {% endif %}
+            <li class="divider"></li>
+            <li>
+                <a href="#">How To</a>
+            </li>
+            <li class="divider"></li>
+        </ul>
+        <!-- Right Nav Section -->
+        <ul class="right">
+            {% if user.is_authenticated %}
+                <li class="divider"></li>
+                <li><a href="{% url 'userprofilepage' %}">Profile</a></li>
+                <li class="divider"></li>
+                <li><a href="{% url 'custom_logout' %}">log out</a></li>
+            {% else %}
+                <li class="divider"></li>
+                <li><a href="{% url 'auth_login' %}">log in</a></li>
+                <li class="divider"></li>
+                <li><a href="{% url 'registration_register' %}">register</a></li>
+            {% endif %}
+        </ul>
+    </section>
+</nav>
+<!-- /navbar -->
+
 {% block content %}
 
 {% endblock content %}
+ <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+ <script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
+{% javascript 'contrib' %}
 
-{% compressed_js 'contrib' %}
+{% block extra_js %}
+{% endblock extra_js %}
 </body>
 </html>

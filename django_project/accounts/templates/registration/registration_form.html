@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if form.non_field_errors %}
+    <div class="row">
+        <div class="small-4 columns vp-center">
+            {% for error in form.non_field_errors %}
+                <div class="row">
+                    <p class="vp-error"> {{error}} </p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+<div class="row">
+    <div class="small-4 columns vp-center">
+        <div class="row">
+            <h4>Create your account</h4>
+        </div>
+        <form method="POST" action="">{% csrf_token %}
+            <div class="row">
+                <label> Username
+                {{ form.username }}
+                </label>
+                {% if form.username.errors %}
+                    {% for error in form.username.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="row">
+                <label> Email
+                {{ form.email }}
+                </label>
+                {% if form.email.errors %}
+                    {% for error in form.email.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="row">
+                <label> Password
+                {{ form.password1 }}
+                </label>
+                {% if form.password1.errors %}
+                    {% for error in form.password1.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="row">
+                <label> Repeat Password
+                {{ form.password2 }}
+                </label>
+                {% if form.password2.errors %}
+                    {% for error in form.password2.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="row">
+                <input type="submit" class="button expand" value="Register">
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

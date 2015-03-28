@@ -1,8 +1,12 @@
 -r REQUIREMENTS.txt
 
+django-nose
 coverage
+nose-exclude
 pep8
-flake8
+pylint
+
+django-devserver
 
 # documentation
 Sphinx

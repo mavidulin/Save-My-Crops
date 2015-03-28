@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .contrib import *  # NOQA
+from .contrib import *
 
 DATABASES = {
     'default': {
@@ -19,6 +19,53 @@ DATABASES = {
     }
 }
 
+EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
+MAILGUN_ACCESS_KEY = 'key-5exebv4ni-9voevd0mnooc025r3pgo39'
+MAILGUN_SERVER_NAME = 'sandboxff50038ad587497581376cc3e5b881de.mailgun.org'
+
 # Project apps
 INSTALLED_APPS += (
+    'web',
+    'accounts'
 )
+
+
+PIPELINE_JS = {
+    'contrib': {
+        'source_filenames': (
+            'js/jquery.min.js',
+            'js/underscore.min.js',
+            'js/foundation.min.js',
+            'js/csrf-ajax.js',
+            'js/leaflet.google.js',
+            'js/leaflet.maki.js',
+            'js/leaflet.draw.js',
+            # 'js/app.js',
+        ),
+        'output_filename': 'js/contrib.js',
+    },
+}
+
+PIPELINE_CSS = {
+    'contrib': {
+        'source_filenames': (
+            'css/normalize.css',
+            'css/foundation.min.css',
+            'css/foundation-icons/foundation-icons.css',
+            'css/leaflet.draw.css',
+            'css/main.css',
+        ),
+        'output_filename': 'css/contrib.css',
+        'extra_context': {
+            'media': 'screen, projection',
+        },
+    },
+}
+
+
+# Django-registration settings
+ACCOUNT_ACTIVATION_DAYS = 7
+LOGIN_REDIRECT_URL = '/'
+
+# Email from wich messages are sent to users who requested address from widget.
+FROM_EMAIL_ADDRESS_WIDGET = 'cropalert@cropalert.com'

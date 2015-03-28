@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if form.non_field_errors %}
+    <div class="row">
+        <div class="small-4 columns vp-center">
+            {% for error in form.non_field_errors %}
+                <div class="row">
+                    <p class="vp-error"> {{error}} </p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+<div class="row">
+    <div class="small-4 columns vp-center">
+        <div class="row">
+            <h4>Log in</h4>
+        </div>
+        <form method="POST">{% csrf_token %}
+            <div class="row">
+                <label> Username
+                {{ form.username }}
+                </label>
+                {% if form.username.errors %}
+                    {% for error in form.username.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="row">
+                <label> Password
+                {{ form.password }}
+                </label>
+                {% if form.password.errors %}
+                    {% for error in form.password.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <a href="{% url 'password_reset' %}" id="forgot-password-link">Forgot your password?</a>
+            </div>
+
+            <!-- Input for 'next' url parameter -->
+            <input name="next" type="hidden" value="{{next}}">
+
+            <div class="row">
+                <input type="submit" class="button expand" value="Log in">
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,24 @@
+.row {
+    margin-top: 10px;
+}
+.vp-error,
+.vp-form-field-error {
+    color: #d43f3a;
+}
+.vp-form-field-error{
+    margin-top: -15px;
+}
+.vp-center {
+    display: block;
+    float: none;
+    margin: 0 auto;
+}
+.vp-text-center {
+    text-align: center;
+}
+.vp-size-17 {
+    font-size: 17px;
+}
+.vp-item-active {
+    background-color: #272727 !important;
+}

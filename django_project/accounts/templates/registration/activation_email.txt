@@ -1,0 +1,1 @@
+Please open this url in your browser to activate the account: {{site}}{% url 'registration_activate' activation_key %}

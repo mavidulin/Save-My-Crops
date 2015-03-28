@@ -1,9 +1,21 @@
 # -*- coding: utf-8 -*-
-from .base import *  # NOQA
+from .base import *
 
 # Extra installed apps
 INSTALLED_APPS += (
-    # any 3rd party apps
+    # 'raven.contrib.django',  # enable Raven plugin
+    'pipeline',
+    'registration'
 )
 
-# 3rd party specific app settings
+# define template function (example for underscore)
+# PIPELINE_TEMPLATE_FUNC = '_.template'
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'pipeline.finders.PipelineFinder'
+)
+
+# enable cached storage - requires uglify.js (node.js)
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'

@@ -3,5 +3,7 @@ psycopg2
 pytz
 django-braces
 django-model-utils
-
+django-pipeline
+django-registration-redux==1.1
+django-mailgun
 # raven
