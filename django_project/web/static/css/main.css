@@ -51,6 +51,9 @@ body {
     color: #FF6666;
 }
 
+.files-widget {
+    margin-bottom: 15px;
+}
 .files-widget .controls .fake-files-input .files-input[type="file"] {
     margin: 0;
 }
@@ -60,4 +63,25 @@ body {
 .files-widget-dropbox {
     background-color: #F8F8F8;
     border: 1px solid #B2B2B2 !important;
+}
+
+.vp-required-label {
+    color: #E4513A;
+    font-size: 12px;
+    font-style: italic;
+    display: inline-block;
+    position: relative;
+    float: right;
+    font-weight: bold;
+}
+
+.vp-form-label {
+    font-weight: bold;
+}
+
+.vp-label-help-text {
+    font-size: 14px;
+    font-style: italic;
+    color: #8A8A8A;
+    font-weight: bold;
 }

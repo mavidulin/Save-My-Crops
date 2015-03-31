@@ -51,13 +51,15 @@
     </div>
 {% endif %}
 
-<div class="row">
+<div class="row" style="margin-top: 15px;">
     <div class="small-8 columns vp-center">
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row">
-                <label> {{form.crop_field.label_tag}}
-                {{form.crop_field}}
+                <label>
+                    <span class="vp-form-label">{{form.crop_field.label}}</span>
+
+                    {{form.crop_field}}
                 </label>
                 {% if form.crop_field.errors %}
                     {% for error in form.crop_field.errors %}
@@ -67,8 +69,11 @@
             </div>
 
             <div class="row">
-                <label> {{form.pest_disease_name.label_tag}}
-                {{form.pest_disease_name}}
+                <label>
+                    <span class="vp-form-label">{{form.pest_disease_name.label}}</span>
+                    <span class="vp-required-label"> &nbsp; *REQUIRED</span>
+
+                    {{form.pest_disease_name}}
                 </label>
                 {% if form.pest_disease_name.errors %}
                     {% for error in form.pest_disease_name.errors %}
@@ -78,22 +83,43 @@
             </div>
 
             <div class="row">
-                <label> {{form.entry_type.label_tag}}
-                {{form.entry_type}}
-                </label>
-                {% if form.entry_type.errors %}
-                    {% for error in form.entry_type.errors %}
-                        <p class="vp-form-field-error">{{error}}</p>
-                    {% endfor %}
-                {% endif %}
+                <div class="small-6 columns" style="margin-left:-15px">
+                    <label>
+                        <span class="vp-form-label">{{form.entry_type.label}}</span>
+                        <span class="vp-required-label"> &nbsp; *REQUIRED</span>
+
+                        {{form.entry_type}}
+                    </label>
+                    {% if form.entry_type.errors %}
+                        {% for error in form.entry_type.errors %}
+                            <p class="vp-form-field-error">{{error}}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="small-6 columns" style="margin-right:-15px">
+                    <label>
+                        <span class="vp-form-label">{{form.occurence_date.label}}</span>
+                        <span class="vp-required-label"> &nbsp; *REQUIRED</span>
+
+                        {{form.occurence_date}}
+                    </label>
+                    {% if form.occurence_date.errors %}
+                        {% for error in form.occurence_date.errors %}
+                            <p class="vp-form-field-error">{{error}}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
             </div>
 
             <div class="row">
-                <label> {{form.occurence_date.label_tag}}
-                {{form.occurence_date}}
+                <label>
+                    <span class="vp-form-label">IMAGES</span>
+                    <span class="vp-required-label"> &nbsp; *REQUIRED</span>
+
+                    {{form.images}}
                 </label>
-                {% if form.occurence_date.errors %}
-                    {% for error in form.occurence_date.errors %}
+                {% if form.images.errors %}
+                    {% for error in form.images.errors %}
                         <p class="vp-form-field-error">{{error}}</p>
                     {% endfor %}
                 {% endif %}
@@ -102,7 +128,8 @@
             <div class="row">
                 {{form.location}}
                 <label>
-                    Location (only if Crop Field is not selected)
+                    <span class="vp-form-label">LOCATION (only if Crop Field is not selected)</span>
+
                     {% if form.location.errors %}
                         {% for error in form.location.errors %}
                             <span class="vp-form-field-error">{{error}}</span>
@@ -113,19 +140,10 @@
             </div><br>
 
             <div class="row">
-                <label> Images:
-                {{form.images}}
-                </label>
-                {% if form.images.errors %}
-                    {% for error in form.images.errors %}
-                        <p class="vp-form-field-error">{{error}}</p>
-                    {% endfor %}
-                {% endif %}
-            </div><br>
+                <label>
+                    <span class="vp-form-label">{{form.damage_estimation.label}}</span>
 
-            <div class="row">
-                <label> {{form.damage_estimation.label_tag}}
-                {{form.damage_estimation}}
+                    {{form.damage_estimation}}
                 </label>
                 {% if form.damage_estimation.errors %}
                     {% for error in form.damage_estimation.errors %}
@@ -135,8 +153,23 @@
             </div>
 
             <div class="row">
-                <label> {{form.is_harvested.label_tag}}
-                {{form.is_harvested}}
+                <label>
+                    <span class="vp-form-label">{{form.pesticide_use.label}}</span>
+
+                    {{form.pesticide_use}}
+                </label>
+                {% if form.pesticide_use.errors %}
+                    {% for error in form.pesticide_use.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row" style="margin-top: 15px;">
+                <label>
+                    <span class="vp-form-label">{{form.is_harvested.label}} &nbsp;</span>
+
+                    {{form.is_harvested}}
                 </label>
                 {% if form.is_harvested.errors %}
                     {% for error in form.is_harvested.errors %}
@@ -145,9 +178,11 @@
                 {% endif %}
             </div>
 
-            <div class="row">
-                <label> {{form.harvest_date.label_tag}}
-                {{form.harvest_date}}
+            <div class="row" style="border-top: 1px solid #8A8A8A; padding-top: 25px;">
+                <label>
+                    <span class="vp-form-label">{{form.harvest_date.label}}</span>
+
+                    {{form.harvest_date}}
                 </label>
                 {% if form.harvest_date.errors %}
                     {% for error in form.harvest_date.errors %}
@@ -156,9 +191,11 @@
                 {% endif %}
             </div>
 
-            <div class="row">
-                <label> {{form.harvest_destroyed.label_tag}}
-                {{form.harvest_destroyed}}
+            <div class="row" style="border-bottom: 1px solid #8A8A8A; padding-bottom: 20px; margin-bottom: 25px;">
+                <label>
+                    <span class="vp-form-label">{{form.harvest_destroyed.label}}</span>
+
+                    {{form.harvest_destroyed}}
                 </label>
                 {% if form.harvest_destroyed.errors %}
                     {% for error in form.harvest_destroyed.errors %}
@@ -168,19 +205,10 @@
             </div>
 
             <div class="row">
-                <label> {{form.pesticide_use.label_tag}}
-                {{form.pesticide_use}}
-                </label>
-                {% if form.pesticide_use.errors %}
-                    {% for error in form.pesticide_use.errors %}
-                        <p class="vp-form-field-error">{{error}}</p>
-                    {% endfor %}
-                {% endif %}
-            </div>
+                <label>
+                    <span class="vp-form-label">{{form.additional_info.label}}</span>
 
-            <div class="row">
-                <label> {{form.additional_info.label_tag}}
-                {{form.additional_info}}
+                    {{form.additional_info}}
                 </label>
                 {% if form.additional_info.errors %}
                     {% for error in form.additional_info.errors %}
@@ -205,6 +233,10 @@
 {{form.media}}
 
 <script type="text/javascript">
+
+// Make textarea elemnts gave 4 rows
+$('textarea').attr('rows', 4);
+
 var cropFields = {{crop_fields | safe}};
 var individualEntries = {{individual_entries | safe}};
 

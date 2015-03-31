@@ -14,7 +14,7 @@ class CropField(models.Model):
         null=False,
         blank=False,
         max_length=250,
-        verbose_name='Crop Name'
+        verbose_name='CROP NAME'
     )
     area = models.PolygonField(
         srid=4326,
@@ -24,39 +24,39 @@ class CropField(models.Model):
     planting_date = models.DateField(
         null=True,
         blank=True,
-        verbose_name='Planting Date'
+        verbose_name='PLANTING DATE'
     )
     ph = models.IntegerField(
         null=True,
         blank=True,
-        verbose_name='Soil Ph level'
+        verbose_name='SOIL PH LEVEL'
     )
     other_soil_parameters = models.TextField(
         null=True,
         blank=True,
-        verbose_name='Other Soil Parameters'
+        verbose_name='OTHER SOIL PARAMETERS'
     )
     soil_texture = models.CharField(
         null=True,
         blank=True,
         max_length=500,
-        verbose_name='Soil Texture'
+        verbose_name='SOIL TEXTURE'
     )
     fertilizer_use = models.TextField(
         null=True,
         blank=True,
-        verbose_name='Fertilizer use'
+        verbose_name='FERTILIZER USE'
     )
     pesticide_use = models.TextField(
         null=True,
         blank=True,
-        verbose_name='Pesticide use (includes: herbicide, insecticide,' +
+        verbose_name='PESTICIDE USE (includes: herbicide, insecticide,' +
         'fungicide... and other)'
     )
     additional_info = models.TextField(
         null=True,
         blank=True,
-        verbose_name='Additional Info'
+        verbose_name='ADDITIONAL INFORMATION'
     )
     images = files_widget.ImagesField(blank=True, null=True)
 
@@ -101,57 +101,57 @@ class Entry(models.Model):
         'CropField',
         null=True,
         blank=True,
-        verbose_name='Crop Field',
+        verbose_name='CROP FIELD',
         related_name='entries'
     )
     pest_disease_name = models.CharField(
         null=True,
         blank=True,
         max_length=250,
-        verbose_name='Pest or Disease Name'
+        verbose_name='PEST OR DISEASE NAME'
     )
     entry_type = models.CharField(
         null=False,
         blank=False,
         max_length=250,
         choices=(ENTRY_TYPE_CHOICES),
-        verbose_name='Pest or Disease?'
+        verbose_name='PEST OR DISEASE?'
     )
     occurence_date = models.DateField(
         null=False,
         blank=False,
-        verbose_name='Date of Occurence'
+        verbose_name='DATE OF OCCURENCE'
     )
     damage_estimation = models.IntegerField(
         null=True,
         blank=True,
-        verbose_name='Estimation of affected area in percentage (%)'
+        verbose_name='ESTIMATION OF AFFECTED AREA IN PERCENTAGE (%)'
     )
     is_harvested = models.BooleanField(
         null=False,
         blank=False,
         default=False,
-        verbose_name='Is Crop Field Harvested?'
+        verbose_name='IS CROP HARVESTED?'
     )
     harvest_date = models.DateField(
         null=True,
         blank=True,
-        verbose_name='Harvest Date (required only if crop was harvested)'
+        verbose_name='HARVEST DATE (required only if crop was harvested)'
     )
     harvest_destroyed = models.IntegerField(
         null=True,
         blank=True,
-        verbose_name='Estimation of percentage of destroyed harvest (%)'
+        verbose_name='ESTIMATION OF PERCENTAGE OF DESTROYED HARVEST (%)'
     )
     additional_info = models.TextField(
         null=True,
         blank=True,
-        verbose_name='Additional Info'
+        verbose_name='ADDITIONAL INFORMATION'
     )
     pesticide_use = models.TextField(
         null=True,
         blank=True,
-        verbose_name='Pesticide use and results'
+        verbose_name='PESTICIDE USE AND RESULTS'
     )
     images = files_widget.ImagesField(blank=False, null=False)
 

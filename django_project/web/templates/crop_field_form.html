@@ -42,13 +42,16 @@
     </div>
 {% endif %}
 
-<div class="row">
+<div class="row" style="margin-top: 15px;">
     <div class="small-8 columns vp-center">
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row">
-                <label> {{form.crop_name.label_tag}}
-                {{form.crop_name}}
+                <label>
+                    <span class="vp-form-label">{{form.crop_name.label}}</span>
+                    <span class="vp-required-label"> &nbsp; *REQUIRED</span>
+
+                    {{form.crop_name}}
                 </label>
                 {% if form.crop_name.errors %}
                     {% for error in form.crop_name.errors %}
@@ -60,7 +63,9 @@
             <div class="row">
                 {{form.area}}
                 <label>
-                    Draw a crop field on map
+                    <span class="vp-form-label">DRAW A CROP FIELD ON MAP</span>
+                    <span class="vp-required-label"> &nbsp; *REQUIRED</span>
+
                     {% if form.area.errors %}
                         {% for error in form.area.errors %}
                             <span class="vp-form-field-error">{{error}}</span>
@@ -71,8 +76,10 @@
             </div><br>
 
             <div class="row">
-                <label> Images:
-                {{form.images}}
+                <label>
+                    <span class="vp-form-label">IMAGES</span>
+
+                    {{form.images}}
                 </label>
                 {% if form.images.errors %}
                     {% for error in form.images.errors %}
@@ -82,30 +89,38 @@
             </div><br>
 
             <div class="row">
-                <label> {{form.planting_date.label_tag}}
-                {{form.planting_date}}
-                </label>
-                {% if form.planting_date.errors %}
-                    {% for error in form.planting_date.errors %}
-                        <p class="vp-form-field-error">{{error}}</p>
-                    {% endfor %}
-                {% endif %}
+                <div class="small-6 columns" style="margin-left:-15px">
+                    <label>
+                        <span class="vp-form-label">{{form.planting_date.label}}</span>
+                        <span class="vp-label-help-text"> &nbsp; (yyyy-mm-dd)</span>
+
+                        {{form.planting_date}}
+                    </label>
+                    {% if form.planting_date.errors %}
+                        {% for error in form.planting_date.errors %}
+                            <p class="vp-form-field-error">{{error}}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="small-6 columns" style="margin-right:-15px">
+                    <label>
+                        <span class="vp-form-label">{{form.ph.label}}</span>
+
+                        {{form.ph}}
+                    </label>
+                    {% if form.ph.errors %}
+                        {% for error in form.ph.errors %}
+                            <p class="vp-form-field-error">{{error}}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
             </div>
 
             <div class="row">
-                <label> {{form.ph.label_tag}}
-                {{form.ph}}
-                </label>
-                {% if form.ph.errors %}
-                    {% for error in form.ph.errors %}
-                        <p class="vp-form-field-error">{{error}}</p>
-                    {% endfor %}
-                {% endif %}
-            </div>
+                <label>
+                    <span class="vp-form-label">{{form.other_soil_parameters.label}}</span>
 
-            <div class="row">
-                <label> {{form.other_soil_parameters.label_tag}}
-                {{form.other_soil_parameters}}
+                    {{form.other_soil_parameters}}
                 </label>
                 {% if form.other_soil_parameters.errors %}
                     {% for error in form.other_soil_parameters.errors %}
@@ -115,8 +130,10 @@
             </div>
 
             <div class="row">
-                <label> {{form.soil_texture.label_tag}}
-                {{form.soil_texture}}
+                <label>
+                    <span class="vp-form-label">{{form.soil_texture.label}}</span>
+
+                    {{form.soil_texture}}
                 </label>
                 {% if form.soil_texture.errors %}
                     {% for error in form.soil_texture.errors %}
@@ -126,8 +143,10 @@
             </div>
 
             <div class="row">
-                <label> {{form.fertilizer_use.label_tag}}
-                {{form.fertilizer_use}}
+                <label>
+                    <span class="vp-form-label">{{form.fertilizer_use.label}}</span>
+
+                    {{form.fertilizer_use}}
                 </label>
                 {% if form.fertilizer_use.errors %}
                     {% for error in form.fertilizer_use.errors %}
@@ -137,8 +156,10 @@
             </div>
 
             <div class="row">
-                <label> {{form.pesticide_use.label_tag}}
-                {{form.pesticide_use}}
+                <label>
+                    <span class="vp-form-label">{{form.pesticide_use.label}}</span>
+
+                    {{form.pesticide_use}}
                 </label>
                 {% if form.pesticide_use.errors %}
                     {% for error in form.pesticide_use.errors %}
@@ -148,8 +169,10 @@
             </div>
 
             <div class="row">
-                <label> {{form.additional_info.label_tag}}
-                {{form.additional_info}}
+                <label>
+                    <span class="vp-form-label">{{form.additional_info.label}}</span>
+
+                    {{form.additional_info}}
                 </label>
                 {% if form.additional_info.errors %}
                     {% for error in form.additional_info.errors %}
@@ -175,6 +198,10 @@
 {{form.media}}
 
 <script type="text/javascript">
+
+// Make textarea elemnts gave 4 rows
+$('textarea').attr('rows', 4);
+
 var cropFields = {{crop_fields | safe}};
 var individualEntries = {{individual_entries | safe}};
 
