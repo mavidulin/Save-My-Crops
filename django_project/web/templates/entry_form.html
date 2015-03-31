@@ -1,5 +1,9 @@
 {%  extends 'base.html' %}
 
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}files_widget/css/widgets.css">
+{% endblock style %}
+
 {% block content %}
 
 <!-- Wrapper div -->
@@ -7,7 +11,7 @@
 
 <div class="row" style="margin-bottom: 15px;">
     <div class="small-8 columns vp-center">
-        <div class="row">
+        <div class="small-11 columns" style="margin-left: -30px;">
             <h4>
                 {% if mode == 'create' %}
                     ADD NEW PEST/DISEASE ENTRY
@@ -15,11 +19,23 @@
                     EDIT PEST/DISEASE ENTRY
                 {% endif %}
             </h4>
-            <h6 style="font-style: italic; color: #4d4d4d;">
-                Note: If pest/disease is not on any given crop field, you will
-                have to place marker on the map.
-            </h6>
         </div>
+        {% if mode == 'update' %}
+            <div class="small-1 column" style="margin-right: -30px;">
+                <a href="{% url 'delete_entry' form.instance.id %}">
+                    <i class="fi-trash vp-trash-icon vp-size-26"></i>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row" style="margin-bottom: 15px;">
+    <div class="small-8 columns vp-center" style="left: -15px;">
+        <h6 style="font-style: italic; color: #4d4d4d;">
+            Note: If pest/disease is not on any given crop field, you
+            have to place marker on the map.
+        </h6>
     </div>
 </div>
 
@@ -94,6 +110,17 @@
                     {% endif %}
                 </label>
                 <div id="map" style="height: 450px;"></div>
+            </div><br>
+
+            <div class="row">
+                <label> Images:
+                {{form.images}}
+                </label>
+                {% if form.images.errors %}
+                    {% for error in form.images.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
             </div><br>
 
             <div class="row">
@@ -174,6 +201,9 @@
 {% endblock content %}
 
 {% block extra_js %}
+
+{{form.media}}
+
 <script type="text/javascript">
 var cropFields = {{crop_fields | safe}};
 var individualEntries = {{individual_entries | safe}};

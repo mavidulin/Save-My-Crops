@@ -34,12 +34,30 @@ body {
 .vp-text-center {
     text-align: center;
 }
-.vp-size-17 {
-    font-size: 17px;
-}
 .vp-item-active {
     background-color: #272727 !important;
 }
 #explore-map {
     height: 550px;
+}
+
+.vp-size-17 {
+    font-size: 17px;
+}
+.vp-size-26 {
+    font-size: 26px;
+}
+.vp-trash-icon {
+    color: #FF6666;
+}
+
+.files-widget .controls .fake-files-input .files-input[type="file"] {
+    margin: 0;
+}
+.files-widget .controls .fake-files-input {
+    top: 5px;
+}
+.files-widget-dropbox {
+    background-color: #F8F8F8;
+    border: 1px solid #B2B2B2 !important;
 }

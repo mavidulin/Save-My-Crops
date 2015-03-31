@@ -30,7 +30,8 @@ class CropFieldForm(forms.ModelForm):
             'soil_texture',
             'fertilizer_use',
             'pesticide_use',
-            'additional_info'
+            'additional_info',
+            'images'
         )
 
 
@@ -53,7 +54,8 @@ class EntryForm(forms.ModelForm):
             'harvest_date',
             'harvest_destroyed',
             'pesticide_use',
-            'additional_info'
+            'additional_info',
+            'images'
         )
 
     def __init__(self, *args, **kwargs):

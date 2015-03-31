@@ -20,6 +20,8 @@ urlpatterns = patterns(
     # Include django-registration urls after accounts app urls for override.
     url(r'^accounts/', include('registration.backends.default.urls')),
 
+    url(r'^files-widget/', include('topnotchdev.files_widget.urls')),
+
 )
 
 # expose static files and uploded media if DEBUG is active

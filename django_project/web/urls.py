@@ -6,8 +6,10 @@ from .views import (
     MapPageView,
     CropFieldCreateView,
     CropFieldUpdateView,
+    CropFieldDeleteView,
     EntryCreateView,
     EntryUpdateView,
+    EntryDeleteView,
     CropFieldDetailView,
     IndividualEntryDetailView,
     MyCropFieldsView,
@@ -31,6 +33,11 @@ urlpatterns = patterns(
         name='edit-crop-field'
     ),
     url(
+        r'^delete-crop-field/(?P<pk>\d+)/$',
+        CropFieldDeleteView.as_view(),
+        name="delete_crop_field"
+    ),
+    url(
         r'^add-entry/$',
         EntryCreateView.as_view(),
         name='add-entry'
@@ -39,6 +46,11 @@ urlpatterns = patterns(
         r'^edit-entry/(?P<pk>\d+)/$',
         EntryUpdateView.as_view(),
         name='edit-entry'
+    ),
+    url(
+        r'^delete-entry/(?P<pk>\d+)/$',
+        EntryDeleteView.as_view(),
+        name="delete_entry"
     ),
     url(
         r'^crop-field/(?P<pk>\d+)/$',

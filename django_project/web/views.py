@@ -3,15 +3,19 @@ import logging
 LOG = logging.getLogger(__name__)
 
 from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.views.generic import (
     TemplateView,
     DetailView,
     CreateView,
-    UpdateView
+    UpdateView,
+    DeleteView
 )
 
 from rest_framework import viewsets
 from rest_framework.renderers import JSONRenderer
+
+from braces.views import LoginRequiredMixin
 
 from .models import CropField, Entry
 
@@ -92,6 +96,25 @@ class CropFieldUpdateView(SendFeaturesToContext, UpdateView):
         return reverse('map')
 
 
+class CropFieldDeleteView(LoginRequiredMixin, DeleteView):
+    model = CropField
+    success_url = '/map'
+    template_name = 'confirm_delete_crop_field.html'
+
+    def post(self, request, *args, **kwargs):
+        if "cancel" in request.POST:
+            url = self.get_cancel_url()
+            return HttpResponseRedirect(url)
+        else:
+            return super(CropFieldDeleteView, self).post(
+                request,
+                *args,
+                **kwargs)
+
+    def get_cancel_url(self):
+        return reverse('map')
+
+
 class EntryFormViewMixin(object):
 
     def get_form(self, form_class):
@@ -163,6 +186,25 @@ class EntryUpdateView(SendFeaturesToContext, EntryFormViewMixin, UpdateView):
         return super(EntryUpdateView, self).form_valid(form)
 
     def get_success_url(self):
+        return reverse('map')
+
+
+class EntryDeleteView(LoginRequiredMixin, DeleteView):
+    model = Entry
+    success_url = '/map'
+    template_name = 'confirm_delete_entry.html'
+
+    def post(self, request, *args, **kwargs):
+        if "cancel" in request.POST:
+            url = self.get_cancel_url()
+            return HttpResponseRedirect(url)
+        else:
+            return super(EntryDeleteView, self).post(
+                request,
+                *args,
+                **kwargs)
+
+    def get_cancel_url(self):
         return reverse('map')
 
 

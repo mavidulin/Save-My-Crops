@@ -6,7 +6,9 @@ INSTALLED_APPS += (
     # 'raven.contrib.django',  # enable Raven plugin
     'pipeline',
     'registration',
-    'rest_framework'
+    'rest_framework',
+    'sorl.thumbnail',
+    'topnotchdev.files_widget'
 )
 
 # define template function (example for underscore)
@@ -40,3 +42,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     )
 }
+
+# Files widget required option
+THUMBNAIL_DEBUG = False

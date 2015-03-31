@@ -4,6 +4,8 @@ LOG = logging.getLogger(__name__)
 
 from django.contrib.gis.db import models
 
+from topnotchdev import files_widget
+
 from django.contrib.auth.models import User
 
 
@@ -56,6 +58,7 @@ class CropField(models.Model):
         blank=True,
         verbose_name='Additional Info'
     )
+    images = files_widget.ImagesField(blank=True, null=True)
 
     date_added = models.DateField(
         null=True,
@@ -150,7 +153,7 @@ class Entry(models.Model):
         blank=True,
         verbose_name='Pesticide use and results'
     )
-    # photos
+    images = files_widget.ImagesField(blank=False, null=False)
 
     location = models.PointField(
         srid=4326,

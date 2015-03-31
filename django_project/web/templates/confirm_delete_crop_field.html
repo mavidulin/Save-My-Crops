@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+    <form action="" method="post">{% csrf_token %}
+        <p style="margin-bottom: 0px;">Are you sure you want to delete crop field?</p>
+        <p style="font-style: italic; font-size: 14px;">If you delete the crop field, all related pest/disease entries will also be deleted.</p>
+        <input type="submit" class="button small" value="Confirm" />
+        <input type="submit" class="button small" name="cancel" value="Cancel" />
+    </form>
+</div>
+
+{% endblock content %}
