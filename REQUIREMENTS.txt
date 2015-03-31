@@ -6,4 +6,5 @@ django-model-utils
 django-pipeline
 django-registration-redux==1.1
 django-mailgun
+djangorestframework
 # raven

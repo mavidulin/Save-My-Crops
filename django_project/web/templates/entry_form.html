@@ -1,0 +1,211 @@
+{%  extends 'base.html' %}
+
+{% block content %}
+
+<!-- Wrapper div -->
+<div class="row" style="top: 15px;position:relative;">
+
+<div class="row" style="margin-bottom: 15px;">
+    <div class="small-8 columns vp-center">
+        <div class="row">
+            <h4>
+                {% if mode == 'create' %}
+                    ADD NEW PEST/DISEASE ENTRY
+                {% else %}
+                    EDIT PEST/DISEASE ENTRY
+                {% endif %}
+            </h4>
+            <h6 style="font-style: italic; color: #4d4d4d;">
+                Note: If pest/disease is not on any given crop field, you will
+                have to place marker on the map.
+            </h6>
+        </div>
+    </div>
+</div>
+
+{% if form.non_field_errors %}
+    <div class="row">
+        <div class="small-8 columns vp-center">
+            {% for error in form.non_field_errors %}
+                <div class="row">
+                    <p class="vp-error"> {{error}} </p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+<div class="row">
+    <div class="small-8 columns vp-center">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <label> {{form.crop_field.label_tag}}
+                {{form.crop_field}}
+                </label>
+                {% if form.crop_field.errors %}
+                    {% for error in form.crop_field.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <label> {{form.pest_disease_name.label_tag}}
+                {{form.pest_disease_name}}
+                </label>
+                {% if form.pest_disease_name.errors %}
+                    {% for error in form.pest_disease_name.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <label> {{form.entry_type.label_tag}}
+                {{form.entry_type}}
+                </label>
+                {% if form.entry_type.errors %}
+                    {% for error in form.entry_type.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <label> {{form.occurence_date.label_tag}}
+                {{form.occurence_date}}
+                </label>
+                {% if form.occurence_date.errors %}
+                    {% for error in form.occurence_date.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                {{form.location}}
+                <label>
+                    Location (only if Crop Field is not selected)
+                    {% if form.location.errors %}
+                        {% for error in form.location.errors %}
+                            <span class="vp-form-field-error">{{error}}</span>
+                        {% endfor %}
+                    {% endif %}
+                </label>
+                <div id="map" style="height: 450px;"></div>
+            </div><br>
+
+            <div class="row">
+                <label> {{form.damage_estimation.label_tag}}
+                {{form.damage_estimation}}
+                </label>
+                {% if form.damage_estimation.errors %}
+                    {% for error in form.damage_estimation.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <label> {{form.is_harvested.label_tag}}
+                {{form.is_harvested}}
+                </label>
+                {% if form.is_harvested.errors %}
+                    {% for error in form.is_harvested.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <label> {{form.harvest_date.label_tag}}
+                {{form.harvest_date}}
+                </label>
+                {% if form.harvest_date.errors %}
+                    {% for error in form.harvest_date.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <label> {{form.harvest_destroyed.label_tag}}
+                {{form.harvest_destroyed}}
+                </label>
+                {% if form.harvest_destroyed.errors %}
+                    {% for error in form.harvest_destroyed.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <label> {{form.pesticide_use.label_tag}}
+                {{form.pesticide_use}}
+                </label>
+                {% if form.pesticide_use.errors %}
+                    {% for error in form.pesticide_use.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <label> {{form.additional_info.label_tag}}
+                {{form.additional_info}}
+                </label>
+                {% if form.additional_info.errors %}
+                    {% for error in form.additional_info.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <input type="submit" class="button expand" value="Save">
+            </div>
+        </form>
+    </div>
+</div>
+
+</div> <!-- End Wrapper div -->
+
+{% endblock content %}
+
+{% block extra_js %}
+<script type="text/javascript">
+var cropFields = {{crop_fields | safe}};
+var individualEntries = {{individual_entries | safe}};
+
+{% if editing_geom_id %}
+    // When editing a geom object, remove it from the map because it will
+    // be read from input field.
+    for (var i = 0; i < individualEntries.length; i++) {
+        if (individualEntries[i].id === {{editing_geom_id}}) {
+            individualEntries.splice(i, 1);
+            break;
+        }
+    }
+{% endif %}
+
+$(function() {
+
+    var options = {
+        draw: true,
+        map_id: 'map',
+        geom_field_id: 'id_location',
+        cropFields: cropFields,
+        individualEntries: individualEntries,
+        polyline: false,
+        polygon: false,
+        rectangle: false,
+        circle: false,
+        marker: true,
+    };
+
+    new VP.map(options);
+});
+
+</script>
+{% endblock extra_js %}

@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-from django.contrib import admin
+from django.contrib.gis import admin
 
-# class aModelAdmin(admin.ModelAdmin):
-#    pass
+from .models import CropField, Entry
 
-# admin.site.register(aModel, aModelAdmin):
+# admin.site.register(CropField)
+admin.site.register(Entry)
+
+admin.site.register(CropField, admin.GeoModelAdmin)

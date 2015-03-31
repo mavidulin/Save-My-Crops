@@ -1,0 +1,194 @@
+{%  extends 'base.html' %}
+
+{% block content %}
+
+<!-- Wrapper div -->
+<div class="row" style="top: 15px;position:relative;">
+
+<div class="row">
+    <div class="small-8 columns vp-center">
+        <div class="row">
+            <h4>
+                {% if mode == 'create' %}
+                    ADD NEW CROP FIELD
+                {% else %}
+                    EDIT CROP FIELD - {{form.instance.display_name}}
+                {% endif %}
+            </h4>
+        </div>
+    </div>
+</div>
+
+{% if form.non_field_errors %}
+    <div class="row">
+        <div class="small-8 columns vp-center">
+            {% for error in form.non_field_errors %}
+                <div class="row">
+                    <p class="vp-error"> {{error}} </p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+<div class="row">
+    <div class="small-8 columns vp-center">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <label> {{form.crop_name.label_tag}}
+                {{form.crop_name}}
+                </label>
+                {% if form.crop_name.errors %}
+                    {% for error in form.crop_name.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                {{form.area}}
+                <label>
+                    Draw a crop field on map
+                    {% if form.area.errors %}
+                        {% for error in form.area.errors %}
+                            <span class="vp-form-field-error">{{error}}</span>
+                        {% endfor %}
+                    {% endif %}
+                </label>
+                <div id="map" style="height: 450px;"></div>
+            </div><br>
+
+            <div class="row">
+                <label> {{form.planting_date.label_tag}}
+                {{form.planting_date}}
+                </label>
+                {% if form.planting_date.errors %}
+                    {% for error in form.planting_date.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <label> {{form.ph.label_tag}}
+                {{form.ph}}
+                </label>
+                {% if form.ph.errors %}
+                    {% for error in form.ph.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <label> {{form.other_soil_parameters.label_tag}}
+                {{form.other_soil_parameters}}
+                </label>
+                {% if form.other_soil_parameters.errors %}
+                    {% for error in form.other_soil_parameters.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <label> {{form.soil_texture.label_tag}}
+                {{form.soil_texture}}
+                </label>
+                {% if form.soil_texture.errors %}
+                    {% for error in form.soil_texture.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <label> {{form.fertilizer_use.label_tag}}
+                {{form.fertilizer_use}}
+                </label>
+                {% if form.fertilizer_use.errors %}
+                    {% for error in form.fertilizer_use.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <label> {{form.pesticide_use.label_tag}}
+                {{form.pesticide_use}}
+                </label>
+                {% if form.pesticide_use.errors %}
+                    {% for error in form.pesticide_use.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <label> {{form.additional_info.label_tag}}
+                {{form.additional_info}}
+                </label>
+                {% if form.additional_info.errors %}
+                    {% for error in form.additional_info.errors %}
+                        <p class="vp-form-field-error">{{error}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="row">
+                <input type="submit" class="button expand" value="Save">
+            </div>
+        </form>
+    </div>
+</div>
+
+</div> <!-- End Wrapper div -->
+
+{% endblock content %}
+
+{% block extra_js %}
+<script type="text/javascript">
+var cropFields = {{crop_fields | safe}};
+var individualEntries = {{individual_entries | safe}};
+
+{% if editing_geom_id %}
+    // When editing a geom object, remove it from the map because it will
+    // be read from input field.
+    for (var i = 0; i < cropFields.length; i++) {
+        if (cropFields[i].id === {{editing_geom_id}}) {
+            cropFields.splice(i, 1);
+            break;
+        }
+    }
+{% endif %}
+
+$(function() {
+
+    var options = {
+        draw: true,
+        map_id: 'map',
+        geom_field_id: 'id_area',
+        cropFields: cropFields,
+        individualEntries: individualEntries,
+        polyline: false,
+        polygon: {
+            allowIntersection: false,
+            drawError: {
+                color: '#e1e100',
+                message: 'Draw normal polygons!'
+            },
+            shapeOptions: {
+                color: '#FFA500'
+            }
+        },
+        rectangle: false,
+        circle: false,
+        marker: false,
+    };
+
+    new VP.map(options);
+});
+
+</script>
+{% endblock extra_js %}

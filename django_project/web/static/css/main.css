@@ -1,6 +1,24 @@
-.row {
-    margin-top: 10px;
+body {
+    /* Define background color just because of footer. It will look like
+    footer extends to the bottom of the screen no matter what */
+    background-color: #333333;
 }
+#footer {
+    position: relative;
+    clear: both;
+    text-align: center;
+    color: #9b8c75;
+    font-size: 12px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /* Set the same background color as body */
+    background-color: #333333;
+}
+#content {
+    min-height: 500px;
+    background-color: white;
+}
+
 .vp-error,
 .vp-form-field-error {
     color: #d43f3a;
@@ -21,4 +39,7 @@
 }
 .vp-item-active {
     background-color: #272727 !important;
+}
+#explore-map {
+    height: 550px;
 }

@@ -1,6 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-Welcome to map page!
+
+<a href="{% url 'add-crop-field' %}" class="button tiny" style="margin-bottom: 5px; margin-top: 5px;">Add Crop Field</a>
+<a href="{% url 'add-entry' %}" class="button tiny" style="margin-bottom: 5px; margin-top: 5px;">Add Entry</a>
+
+<div id="explore-map"></div>
+
 {% endblock content %}
+
+{% block extra_js %}
+<script type="text/javascript">
+var cropFields = {{crop_fields | safe}};
+var individualEntries = {{individual_entries | safe}};
+
+$(function() {
+
+    var options = {
+        draw: false,
+        map_id: 'explore-map',
+        cropFields: cropFields,
+        individualEntries: individualEntries
+    };
+
+    new VP.map(options);
+});
+
+</script>
+{% endblock extra_js %}
 
