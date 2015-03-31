@@ -34,6 +34,7 @@ PIPELINE_JS = {
     'contrib': {
         'source_filenames': (
             'js/jquery.min.js',
+            'js/jquery-ui.min.js',
             'js/underscore.min.js',
             'js/foundation.min.js',
             'js/csrf-ajax.js',
@@ -53,6 +54,8 @@ PIPELINE_CSS = {
             'css/foundation.min.css',
             'css/foundation-icons/foundation-icons.css',
             'css/leaflet.draw.css',
+            'css/jquery-ui.min.css',
+            'css/jquery-ui.theme.min.css',
             'css/main.css',
         ),
         'output_filename': 'css/contrib.css',
