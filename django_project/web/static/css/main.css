@@ -85,3 +85,22 @@ body {
     color: #8A8A8A;
     font-weight: bold;
 }
+
+.vp-table-head {
+    font-weight: bold;
+    border-right: 1px solid #ddd;
+    background-color: #E6F5E6;
+}
+
+.vp-intable-accordion-panel-href {
+    padding: 0 !important;
+    background-color: inherit !important;
+    font-size: 14px !important;
+    color: #4682B4 !important;
+}
+.vp-intable-panel-content {
+    margin-left: 0 !important;
+    font-size: 12px !important;
+    padding: 5px 0 0 0 !important;
+    background-color: inherit !important;
+}

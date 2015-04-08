@@ -214,7 +214,7 @@ class CropFieldDetailView(DetailView):
 
 
 class IndividualEntryDetailView(DetailView):
-    model = CropField
+    model = Entry
     template_name = 'crop_field_detail.html'
 
 

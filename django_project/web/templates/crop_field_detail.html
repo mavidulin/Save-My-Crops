@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Wrapper div -->
+<div class="row" style="top: 15px;position:relative;">
+
+    <div class="row">
+        <div class="small-8 columns vp-center" style="border-bottom: 2px solid black; margin-bottom: 30px;">
+            <h4>{{cropfield.crop_name}}</h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="small-8 columns vp-center">
+            <table style="width: 100%;">
+                <tbody>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td class="vp-table-head" style="width: 150px;">PLANTING DATE</td>
+                        <td>
+                            {% if cropfield.planting_date %}
+                                {{cropfield.planting_date}}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td class="vp-table-head">PH LEVEL</td>
+                        <td>
+                            {% if cropfield.ph %}
+                                {{cropfield.ph}}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td class="vp-table-head">SOIL TEXTURE</td>
+                        <td>{{cropfield.soil_texture}}</td>
+                    </tr>
+
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td class="vp-table-head">OTHER SOIL PARAMETERS</td>
+                        <td>
+                            <ul class="accordion" data-accordion style="margin-left: 0;">
+                                <li class="accordion-navigation">
+                                    <a href="#panel-other-soil-parameters" class="vp-intable-accordion-panel-href">show/hide</a>
+                                    <div id="panel-other-soil-parameters" class="content vp-intable-panel-content">
+                                        {{cropfield.other_soil_parameters}}
+                                    </div>
+                                  </li>
+                            </ul>
+                        </td>
+                    </tr>
+
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td class="vp-table-head">FERTILIZER USE</td>
+                        <td>
+                            <ul class="accordion" data-accordion style="margin-left: 0;">
+                                <li class="accordion-navigation">
+                                    <a href="#panel-fertilizer-use" class="vp-intable-accordion-panel-href">show/hide</a>
+                                    <div id="panel-fertilizer-use" class="content vp-intable-panel-content">
+                                        {{cropfield.fertilizer_use}}
+                                    </div>
+                                  </li>
+                            </ul>
+                        </td>
+                    </tr>
+
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td class="vp-table-head">PESTICIDE USE</td>
+                        <td>
+                            <ul class="accordion" data-accordion style="margin-left: 0;">
+                                <li class="accordion-navigation">
+                                    <a href="#panel-pesticide-use" class="vp-intable-accordion-panel-href">show/hide</a>
+                                    <div id="panel-pesticide-use" class="content vp-intable-panel-content">
+                                        {{cropfield.pesticide_use}}
+                                    </div>
+                                  </li>
+                            </ul>
+                        </td>
+                    </tr>
+
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td class="vp-table-head">ADDITIONAL INFO</td>
+                        <td>
+                            <ul class="accordion" data-accordion style="margin-left: 0;">
+                                <li class="accordion-navigation">
+                                    <a href="#panel-additional-info" class="vp-intable-accordion-panel-href">show/hide</a>
+                                    <div id="panel-additional-info" class="content vp-intable-panel-content">
+                                        {{cropfield.additional_info}}
+                                    </div>
+                                  </li>
+                            </ul>
+                        </td>
+                    </tr>
+
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td class="vp-table-head">LAST MODIFIED</td>
+                        <td>{{cropfield.date_edited}}</td>
+                    </tr>
+                    <tr>
+                        <td class="vp-table-head">CREATED BY</td>
+                        <td>{{cropfield.creator.username}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script type="text/javascript">
+    $(document).foundation();
+</script>
+{% endblock extra_js %}
