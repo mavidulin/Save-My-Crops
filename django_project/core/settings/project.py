@@ -19,10 +19,6 @@ DATABASES = {
     }
 }
 
-EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
-MAILGUN_ACCESS_KEY = 'key-5exebv4ni-9voevd0mnooc025r3pgo39'
-MAILGUN_SERVER_NAME = 'sandboxff50038ad587497581376cc3e5b881de.mailgun.org'
-
 # Project apps
 INSTALLED_APPS += (
     'web',
