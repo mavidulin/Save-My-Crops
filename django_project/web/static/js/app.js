@@ -1,4 +1,4 @@
-var VP = {};
+window.VP = {};
 
 VP.map = function(options) {
     // Create a new Wicket instance. Used for converting wkt to leaflet object.
