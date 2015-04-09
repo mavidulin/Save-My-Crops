@@ -30,6 +30,8 @@
                         <td>
                             {% if cropfield.planting_date %}
                                 {{cropfield.planting_date}}
+                            {% else %}
+                                -
                             {% endif %}
                         </td>
                     </tr>
@@ -38,67 +40,107 @@
                         <td>
                             {% if cropfield.ph %}
                                 {{cropfield.ph}}
+                            {% else %}
+                                -
                             {% endif %}
                         </td>
                     </tr>
                     <tr style="border-bottom: 1px solid #ddd;">
                         <td class="vp-table-head">SOIL TEXTURE</td>
-                        <td>{{cropfield.soil_texture}}</td>
+                        <td>
+                            {% if cropfield.soil_texture|length %}
+                                {{cropfield.soil_texture}}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
                     </tr>
 
                     <tr style="border-bottom: 1px solid #ddd;">
                         <td class="vp-table-head">OTHER SOIL PARAMETERS</td>
                         <td>
-                            <ul class="accordion" data-accordion style="margin-left: 0;">
-                                <li class="accordion-navigation">
-                                    <a href="#panel-other-soil-parameters" class="vp-intable-accordion-panel-href">show/hide</a>
-                                    <div id="panel-other-soil-parameters" class="content vp-intable-panel-content">
-                                        {{cropfield.other_soil_parameters}}
-                                    </div>
-                                  </li>
-                            </ul>
+                            {% if  cropfield.other_soil_parameters|length %}
+                                {% if cropfield.other_soil_parameters|length > 400 %}
+                                    <ul class="accordion" data-accordion style="margin-left: 0;">
+                                        <li class="accordion-navigation">
+                                            <a href="#panel-other-soil-parameters" class="vp-intable-accordion-panel-href">show/hide</a>
+                                            <div id="panel-other-soil-parameters" class="content vp-intable-panel-content">
+                                                {{cropfield.other_soil_parameters}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                {% else %}
+                                    {{cropfield.other_soil_parameters}}
+                                {% endif %}
+                            {% else %}
+                                -
+                            {% endif %}
                         </td>
                     </tr>
 
                     <tr style="border-bottom: 1px solid #ddd;">
                         <td class="vp-table-head">FERTILIZER USE</td>
                         <td>
-                            <ul class="accordion" data-accordion style="margin-left: 0;">
-                                <li class="accordion-navigation">
-                                    <a href="#panel-fertilizer-use" class="vp-intable-accordion-panel-href">show/hide</a>
-                                    <div id="panel-fertilizer-use" class="content vp-intable-panel-content">
-                                        {{cropfield.fertilizer_use}}
-                                    </div>
-                                  </li>
-                            </ul>
+                            {% if  cropfield.fertilizer_use|length %}
+                                {% if cropfield.fertilizer_use|length > 400 %}
+                                    <ul class="accordion" data-accordion style="margin-left: 0;">
+                                        <li class="accordion-navigation">
+                                            <a href="#panel-fertilizer-use" class="vp-intable-accordion-panel-href">show/hide</a>
+                                            <div id="panel-fertilizer-use" class="content vp-intable-panel-content">
+                                                {{cropfield.fertilizer_use}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                {% else %}
+                                    {{cropfield.fertilizer_use}}
+                                {% endif %}
+                            {% else %}
+                                -
+                            {% endif %}
                         </td>
                     </tr>
 
                     <tr style="border-bottom: 1px solid #ddd;">
                         <td class="vp-table-head">PESTICIDE USE</td>
                         <td>
-                            <ul class="accordion" data-accordion style="margin-left: 0;">
-                                <li class="accordion-navigation">
-                                    <a href="#panel-pesticide-use" class="vp-intable-accordion-panel-href">show/hide</a>
-                                    <div id="panel-pesticide-use" class="content vp-intable-panel-content">
-                                        {{cropfield.pesticide_use}}
-                                    </div>
-                                  </li>
-                            </ul>
+                            {% if  cropfield.pesticide_use|length %}
+                                {% if cropfield.pesticide_use|length > 400 %}
+                                    <ul class="accordion" data-accordion style="margin-left: 0;">
+                                        <li class="accordion-navigation">
+                                            <a href="#panel-pesticide-use" class="vp-intable-accordion-panel-href">show/hide</a>
+                                            <div id="panel-pesticide-use" class="content vp-intable-panel-content">
+                                                {{cropfield.pesticide_use}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                {% else %}
+                                    {{cropfield.pesticide_use}}
+                                {% endif %}
+                            {% else %}
+                                -
+                            {% endif %}
                         </td>
                     </tr>
 
                     <tr style="border-bottom: 1px solid #ddd;">
                         <td class="vp-table-head">ADDITIONAL INFO</td>
                         <td>
-                            <ul class="accordion" data-accordion style="margin-left: 0;">
-                                <li class="accordion-navigation">
-                                    <a href="#panel-additional-info" class="vp-intable-accordion-panel-href">show/hide</a>
-                                    <div id="panel-additional-info" class="content vp-intable-panel-content">
-                                        {{cropfield.additional_info}}
-                                    </div>
-                                  </li>
-                            </ul>
+                            {% if  cropfield.additional_info|length %}
+                                {% if cropfield.additional_info|length > 400 %}
+                                    <ul class="accordion" data-accordion style="margin-left: 0;">
+                                        <li class="accordion-navigation">
+                                            <a href="#panel-additional-info" class="vp-intable-accordion-panel-href">show/hide</a>
+                                            <div id="panel-additional-info" class="content vp-intable-panel-content">
+                                                {{cropfield.additional_info}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                {% else %}
+                                    {{cropfield.additional_info}}
+                                {% endif %}
+                            {% else %}
+                                -
+                            {% endif %}
                         </td>
                     </tr>
 
