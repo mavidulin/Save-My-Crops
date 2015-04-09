@@ -104,3 +104,16 @@ body {
     padding: 5px 0 0 0 !important;
     background-color: inherit !important;
 }
+
+.slick-prev:before,
+.slick-next:before {
+    color: black;
+}
+
+.slick-next {
+    right: -6px;
+}
+
+.slick-image-container {
+    left: 7px;
+}
