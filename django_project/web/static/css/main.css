@@ -140,8 +140,8 @@ body {
 
 #map-actions {
     position:absolute;
-    top: 60px;
-    right: 50px;
+    top: 45px;
+    right: 0px;
     z-index: 10;
     background-color: #EBEBEB;
     border: 1px solid #B8B8B8;

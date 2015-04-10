@@ -2,6 +2,7 @@
 
 {% block content %}
 
+{% if user.is_authenticated %}
 <div id="map-actions">
     <a href="{% url 'add-crop-field' %}" id="add-crop-field-btn" class="button tiny">
         ADD CROP FIELD
@@ -10,6 +11,7 @@
         REPORT PEST OR DISEASE
     </a>
 </div>
+{% endif %}
 
 <div id="explore-map"></div>
 
@@ -20,13 +22,20 @@
 var cropFields = {{crop_fields | safe}};
 var individualEntries = {{individual_entries | safe}};
 
+{% if user.is_authenticated %}
+    var currentUserId = {{user.id}};
+{% else %}
+    var currentUserId = undefined;
+{% endif %}
+
 $(function() {
 
     var options = {
         draw: false,
         map_id: 'explore-map',
         cropFields: cropFields,
-        individualEntries: individualEntries
+        individualEntries: individualEntries,
+        currentUserId: currentUserId
     };
 
     new VP.map(options);

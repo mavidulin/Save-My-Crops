@@ -263,6 +263,7 @@ var individualEntries = {{individual_entries | safe}};
 $(function() {
 
     var options = {
+        currentUserId: {{user.id}},
         draw: true,
         map_id: 'map',
         geom_field_id: 'id_location',

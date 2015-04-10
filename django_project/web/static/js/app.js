@@ -14,6 +14,15 @@ VP.map.prototype = {
         this.initCropFields();
         this.initIndividualEntries();
 
+        // Create layer control.
+        L.control.layers(
+            this.map.vp_options.baseLayers,
+            this.map.vp_options.overlayLayers,
+            {
+                position: 'topleft'
+            }
+        ).addTo(this.map);
+
         if (options.draw === true) {
             // If draw is set to true (i.e. when adding or editing feature)
             // Initialise draw control.
@@ -34,14 +43,22 @@ VP.map.prototype = {
         // create a map in the "map" div, set the view to a given place and zoom
         this.map = L.map(this.options.map_id);
 
-        this.setMapHeight();
+        this.map.vp_options = {};
+        this.map.vp_options.baseLayers = {};
+        this.map.vp_options.overlayLayers = {};
 
+        this.setMapHeight();
         this.map.setView([0, 0], 3);
 
         // add an OpenStreetMap tile layer
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        var osmTileLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(this.map);
+        });
+
+        // Add layer for use in layer control.
+        this.map.vp_options.baseLayers['OSM'] = osmTileLayer;
+        // Add layer to make it initially active on map.
+        this.map.addLayer(osmTileLayer);
 
         // On resize set new map height
         $(window).on('resize', function() {
@@ -60,6 +77,8 @@ VP.map.prototype = {
 
     initCropFields: function() {
         var self = this;
+        var myCropFields = [];
+        var otherCropFields = [];
 
         $.each(this.options.cropFields, function() {
             var lealfetPolygon = self.wicketWkt.read(this.area).toObject();
@@ -73,25 +92,75 @@ VP.map.prototype = {
 
             lealfetPolygon
                 .bindPopup(this.crop_name)
-                .addTo(self.map)
                 .setStyle({
                     color: color,
                     fillcolor: color,
                     weight: 1
                 });
+
+            if (this.creator_object.id === self.options.currentUserId) {
+                myCropFields.push(lealfetPolygon);
+            } else {
+                otherCropFields.push(lealfetPolygon);
+            }
         });
+
+        // If user is logged in we can show layer with his features.
+        if (this.options.currentUserId) {
+            var myCropFieldsLayer = L.layerGroup(myCropFields);
+            // Add layer for use in layer control.
+            this.map.vp_options.overlayLayers['My Crop Fields'] = myCropFieldsLayer;
+            // Add layer to make it initially active on map.
+            this.map.addLayer(myCropFieldsLayer);
+
+            var otherCropFieldsLayer = L.layerGroup(otherCropFields);
+            // Add layer for use in layer control.
+            this.map.vp_options.overlayLayers['Other Crop Fields'] = otherCropFieldsLayer;
+            this.map.addLayer(otherCropFieldsLayer);
+        } else {
+            var otherCropFieldsLayer = L.layerGroup(otherCropFields);
+            // Add layer for use in layer control.
+            this.map.vp_options.overlayLayers['Crop Fields'] = otherCropFieldsLayer;
+            this.map.addLayer(otherCropFieldsLayer);
+        }
     },
 
     initIndividualEntries: function() {
         var self = this;
+        var myEntries = [];
+        var otherEntries = [];
 
         $.each(this.options.individualEntries, function() {
             var lealfetPoint = self.wicketWkt.read(this.location).toObject();
 
             lealfetPoint
-                .bindPopup('test')
-                .addTo(self.map);
+                .bindPopup('test');
+
+            if (this.creator_object.id === self.options.currentUserId) {
+                myEntries.push(lealfetPoint);
+            } else {
+                otherEntries.push(lealfetPoint);
+            }
         });
+
+        // If user is logged in we can show layer with his features.
+        if (this.options.currentUserId) {
+            var myEntriesLayer = L.layerGroup(myEntries);
+            // Add layer for use in layer control.
+            this.map.vp_options.overlayLayers['My Pests and Diseases'] = myEntriesLayer;
+            // Add layer to make it initially active on map.
+            this.map.addLayer(myEntriesLayer);
+
+            var otherEntriesLayer = L.layerGroup(otherEntries);
+            // Add layer for use in layer control.
+            this.map.vp_options.overlayLayers["Other Pests and Diseases"] = otherEntriesLayer;
+            this.map.addLayer(otherEntriesLayer);
+        } else {
+            var otherEntriesLayer = L.layerGroup(otherEntries);
+            // Add layer for use in layer control.
+            this.map.vp_options.overlayLayers['Pests and Diseases'] = otherEntriesLayer;
+            this.map.addLayer(otherEntriesLayer);
+        }
     },
 
     initDrawControl: function() {
