@@ -40,6 +40,12 @@
                 <a href="{% url 'map' %}">Explore Map</a>
             </li>
             <li class="divider"></li>
+            {% if user.is_authenticated %}
+            <li>
+                <a href="{% url 'alerts-page' %}">Alerts</a>
+            </li>
+            <li class="divider"></li>
+            {% endif %}
             <li>
                 <a href="#">How To</a>
             </li>

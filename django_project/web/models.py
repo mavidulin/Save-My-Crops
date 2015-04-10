@@ -193,3 +193,36 @@ class Entry(models.Model):
             'id': self.pk,
             'polygon': self.area.geojson,
         }
+
+
+class Alert(models.Model):
+    entry = models.ForeignKey(
+        Entry,
+        null=False,
+        blank=False,
+        related_name='alerts'
+    )
+    # Crop Field near entry
+    crop_field = models.ForeignKey(
+        CropField,
+        null=False,
+        blank=False,
+        related_name='alerts'
+    )
+    # Crop Field Owner
+    user = models.ForeignKey(
+        User,
+        null=False,
+        blank=False,
+        related_name='alerts'
+    )
+    is_viewed = models.BooleanField(
+        null=False,
+        blank=False,
+        default=False
+    )
+    creation_time = models.DateField(
+        null=True,
+        blank=True,
+        auto_now_add=True
+    )

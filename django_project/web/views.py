@@ -4,12 +4,15 @@ LOG = logging.getLogger(__name__)
 
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
+from django.core.mail import send_mail
+from django.contrib.sites.shortcuts import get_current_site
 from django.views.generic import (
     TemplateView,
     DetailView,
     CreateView,
     UpdateView,
-    DeleteView
+    DeleteView,
+    ListView
 )
 
 from rest_framework import viewsets
@@ -17,7 +20,7 @@ from rest_framework.renderers import JSONRenderer
 
 from braces.views import LoginRequiredMixin
 
-from .models import CropField, Entry
+from .models import CropField, Entry, Alert
 
 from .forms import CropFieldForm, EntryForm
 
@@ -150,10 +153,75 @@ class EntryCreateView(SendFeaturesToContext, EntryFormViewMixin, CreateView):
 
         self.object.save()
 
+        self.fire_alerting_process(self.object)
+
         return super(EntryCreateView, self).form_valid(form)
 
     def get_success_url(self):
         return reverse('map')
+
+    def fire_alerting_process(self, entry):
+        if entry.crop_field:
+            location = entry.crop_field.area.point_on_surface
+        else:
+            location = entry.location
+
+        # Find all cropfields near the entry (2km)
+        crop_fields = CropField.objects.filter(
+            area__distance_lte=(location, 2000)
+        ).exclude(creator=entry.creator)
+
+        users_to_email = []
+
+        for field in crop_fields:
+            if field.creator not in users_to_email:
+                users_to_email.append(field.creator)
+
+            alert = Alert(
+                entry=entry,
+                crop_field=field,
+                user=field.creator
+            )
+
+            alert.save()
+
+        for user in users_to_email:
+            alerts_page_link = (
+                'http://' + get_current_site(self.request).domain + '/alerts/'
+            )
+            self.send_email(user.email, alerts_page_link)
+
+    def send_email(self, email, alerts_page_link):
+        send_mail(
+            'Notification From Save My Crops',
+            (
+                'Alert Notification from Save My Crops \n\n' +
+                'Pest or Disease was reported near your crop fields. \n' +
+                'Visit your Alerts page at Save My Crops to find out more. ' +
+                '\n\n Follow this link: ' +
+                alerts_page_link +
+                '\n\n' +
+                'Dedicated to saving your crops, \n' +
+                'Save My Crops team.'
+            ),
+            # FROM_EMAIL
+            'alerts@savemycrops.com',
+            [email],
+            fail_silently=False,
+            html_message=(
+                '<html><body>' +
+
+                '<h4>Alert Notification from Save My Crops</h4></br></br>' +
+                '<p>Pest or Disease was reported near your crop fields.</p>' +
+                '<p><a href="' + alerts_page_link + '">' +
+                'Visit your Alerts page</a> ' +
+                'at <b>Save My Crops<b> to find out more.</p> </br></br>' +
+                '<p>Dedicated to saving your crops,</p>' +
+                '<p><b>Save My Crops team</b>.</p>'
+
+                '</body></html>'
+            )
+        )
 
 
 class EntryUpdateView(SendFeaturesToContext, EntryFormViewMixin, UpdateView):
@@ -227,5 +295,17 @@ class CropFieldEntriesListView(DetailView):
             **kwargs)
 
         context['entries'] = self.object.entries.all()
+
+        return context
+
+
+class AlertsView(ListView):
+    model = Alert
+    template_name = 'alerts.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AlertsView, self).get_context_data(**kwargs)
+
+        context['alerts'] = Alert.objects.filter(user=self.request.user)
 
         return context

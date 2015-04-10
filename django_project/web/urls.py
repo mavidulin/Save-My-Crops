@@ -14,7 +14,9 @@ from .views import (
     CropFieldEntriesListView,
     EntryCreateView,
     EntryUpdateView,
-    EntryDeleteView
+    EntryDeleteView,
+
+    AlertsView
 )
 
 
@@ -69,5 +71,11 @@ urlpatterns = patterns(
         r'^delete-entry/(?P<pk>\d+)/$',
         EntryDeleteView.as_view(),
         name="delete_entry"
+    ),
+
+    url(
+        r'^alerts/$',
+        AlertsView.as_view(),
+        name="alerts-page"
     ),
 )

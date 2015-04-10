@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Wrapper div -->
+<div class="row" style="top: 15px;position:relative;">
+
+    <div class="row" style="margin-bottom: 15px;">
+        <div class="small-8 columns vp-center">
+            {% for alert in alerts %}
+                <p>{{alert.crop_field.display_name}} - {{alert.creation_date}}</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}
