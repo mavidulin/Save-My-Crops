@@ -4,16 +4,17 @@ from django.conf.urls import patterns, url
 from .views import (
     HomePage,
     MapPageView,
+
+    CropFieldDetailView,
     CropFieldCreateView,
     CropFieldUpdateView,
     CropFieldDeleteView,
+
+    IndividualEntryDetailView,
+    CropFieldEntriesListView,
     EntryCreateView,
     EntryUpdateView,
-    EntryDeleteView,
-    CropFieldDetailView,
-    IndividualEntryDetailView,
-    MyCropFieldsView,
-    MyEntriesView
+    EntryDeleteView
 )
 
 
@@ -22,6 +23,12 @@ urlpatterns = patterns(
     url(r'^$', HomePage.as_view(), name='homepage'),
 
     url(r'^map/$', MapPageView.as_view(), name='map'),
+
+    url(
+        r'^crop-field/(?P<pk>\d+)/$',
+        CropFieldDetailView.as_view(),
+        name='crop-field-detail'
+    ),
     url(
         r'^add-crop-field/$',
         CropFieldCreateView.as_view(),
@@ -36,6 +43,17 @@ urlpatterns = patterns(
         r'^delete-crop-field/(?P<pk>\d+)/$',
         CropFieldDeleteView.as_view(),
         name="delete_crop_field"
+    ),
+
+    url(
+        r'^entry/(?P<pk>\d+)/$',
+        IndividualEntryDetailView.as_view(),
+        name='entry-detail'
+    ),
+    url(
+        r'^crop-field/(?P<pk>\d+)/entries$',
+        CropFieldEntriesListView.as_view(),
+        name='crop-field-entries'
     ),
     url(
         r'^add-entry/$',
@@ -52,20 +70,4 @@ urlpatterns = patterns(
         EntryDeleteView.as_view(),
         name="delete_entry"
     ),
-    url(
-        r'^crop-field/(?P<pk>\d+)/$',
-        CropFieldDetailView.as_view(),
-        name='crop-field-detail'
-    ),
-    url(
-        r'^individual-entry/(?P<pk>\d+)/$',
-        IndividualEntryDetailView.as_view(),
-        name='entry-detail'
-    ),
-    url(
-        r'^my-crop-fields/$',
-        MyCropFieldsView.as_view(),
-        name='my-crop-fields'
-    ),
-    url(r'^my-entries/$', MyEntriesView.as_view(), name='my-entries'),
 )

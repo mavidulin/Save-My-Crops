@@ -7,10 +7,20 @@
 
     <div class="row">
         <div class="small-8 columns vp-center" style="border-bottom: 2px solid black; margin-bottom: 30px;">
-            <h4>{{cropfield.crop_name}}</h4>
+            <div class="row">
+                <div class="small-6 columns">
+                    <h4>{{cropfield.crop_name}}</h4>
+                </div>
+                <div class="small-6 columns">
+                    <a href="{% url 'crop-field-entries' cropfield.id %}" style="float: right; margin-top: 10px;">
+                        <i class="fi-arrow-right"></i> PESTS AND DISEASES REPORT
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
+    {% if cropfield.images %}
     <div class="row">
         <div class="small-8 columns vp-center">
             <div class="slick-image-container">
@@ -20,13 +30,14 @@
             </div>
         </div>
     </div>
+    {% endif %}
 
     <div class="row" style="margin-bottom: 50px; margin-top: 10px;">
         <div class="small-8 columns vp-center">
             <table style="width: 100%;">
                 <tbody>
                     <tr style="border-bottom: 1px solid #ddd;">
-                        <td class="vp-table-head" style="width: 150px;">PLANTING DATE</td>
+                        <td class="vp-table-head">PLANTING DATE</td>
                         <td>
                             {% if cropfield.planting_date %}
                                 {{cropfield.planting_date}}
@@ -164,7 +175,6 @@
 {% block extra_js %}
 <script type="text/javascript">
 
-    $(document).ready(function() {
         $(document).foundation();
 
         $('.slick-image-container').slick({
@@ -174,6 +184,5 @@
             dots: true,
             arrows: true
         });
-    });
 </script>
 {% endblock extra_js %}

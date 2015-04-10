@@ -117,3 +117,7 @@ body {
 .slick-image-container {
     left: 7px;
 }
+
+.vp-table-head {
+    width: 200px;
+}

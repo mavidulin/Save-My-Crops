@@ -215,12 +215,17 @@ class CropFieldDetailView(DetailView):
 
 class IndividualEntryDetailView(DetailView):
     model = Entry
-    template_name = 'crop_field_detail.html'
+    template_name = 'entry_detail.html'
 
 
-class MyCropFieldsView(TemplateView):
-    template_name = 'mycrops.html'
+class CropFieldEntriesListView(DetailView):
+    model = CropField
+    template_name = 'crop_field_entires.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(CropFieldEntriesListView, self).get_context_data(
+            **kwargs)
 
-class MyEntriesView(TemplateView):
-    template_name = 'myentries.html'
+        context['entries'] = self.object.entries.all()
+
+        return context
