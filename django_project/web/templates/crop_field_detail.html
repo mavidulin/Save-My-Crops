@@ -5,29 +5,62 @@
 <!-- Wrapper div -->
 <div class="row" style="top: 15px;position:relative;">
 
-    <div class="row">
-        <div class="small-8 columns vp-center" style="border-bottom: 2px solid black; margin-bottom: 30px;">
+    <div class="row" style="margin-bottom: 15px;">
+        <div class="small-8 columns vp-center" style="border-bottom: 2px solid black;">
             <div class="row">
-                <div class="small-6 columns">
-                    <h4>{{cropfield.crop_name}}</h4>
+                <div class="small-12 columns" style="margin-left: -15px;">
+                    <h4>{{cropfield.display_name}}</h4>
                 </div>
-                <div class="small-6 columns">
-                    <a href="{% url 'crop-field-entries' cropfield.id %}" style="float: right; margin-top: 10px;">
-                        <i class="fi-arrow-right"></i> PESTS AND DISEASES REPORT
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="small-8 columns vp-center">
+                {% if  cropfield.entries.all|length != 0 %}
+                    <a href="{% url 'crop-field-entries' cropfield.id %}" style="margin-top: 0px;">
+                        <i class="fi-arrow-right"></i>
+                        {% if  cropfield.entries.all|length == 1 %}
+                            VIEW {{cropfield.entries.all|length}} REPORTED PEST OR DISEASE OCCURENCE
+                        {% else %}
+                            VIEW {{cropfield.entries.all|length}} REPORTED PESTS AND DISEASES OCCURENCES
+                        {% endif %}
                     </a>
-                </div>
+                {% else %}
+                    <p style="color:#737373;margin: 0;">NO RECORDED PEST OR DISEASE OCCURANCES</p>
+                {% endif %}
             </div>
         </div>
     </div>
 
+
     {% if cropfield.images %}
     <div class="row">
         <div class="small-8 columns vp-center">
-            <div class="slick-image-container">
-                {% for img in cropfield.images.all %}
-                    <a href="{{img.url}}"><img src="{{img.thumbnail_200x200.url}}" style="height:120px; width: 200px;"></a>
-                {% endfor %}
-            </div>
+            {% if cropfield.images.all|length == 1 %}
+                <div class="image-container image-container-1-image">
+                    {% for img in cropfield.images.all %}
+                        <a href="{{img.url}}"><img src="{{img.thumbnail_200x200.url}}" style="height:120px; width: 200px;"></a>
+                    {% endfor %}
+                </div>
+            {% elif cropfield.images.all|length == 2 %}
+                <div class="image-container image-container-2-images">
+                    {% for img in cropfield.images.all %}
+                        <a href="{{img.url}}"><img src="{{img.thumbnail_200x200.url}}" style="height:120px; width: 200px;"></a>
+                    {% endfor %}
+                </div>
+            {% elif cropfield.images.all|length == 3 %}
+                <div class="image-container image-container-3-images">
+                    {% for img in cropfield.images.all %}
+                        <a href="{{img.url}}"><img src="{{img.thumbnail_200x200.url}}" style="height:120px; width: 200px;"></a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="slick-image-container">
+                    {% for img in cropfield.images.all %}
+                        <a href="{{img.url}}"><img src="{{img.thumbnail_200x200.url}}" style="height:120px; width: 200px;"></a>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
     </div>
     {% endif %}

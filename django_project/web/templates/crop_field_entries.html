@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Wrapper div -->
+<div class="row" style="top: 15px;position:relative;">
+
+{% for entry in entries %}
+    <div class="row">
+        <div class="small-8 columns vp-center" style="border-bottom: 2px solid black; margin-bottom: 30px;">
+            <div class="row">
+                    <h4>
+                        {% if entry.pest_disease_name|length %}
+                            {{entry.pest_disease_name}}
+
+                        {% else %}
+
+                            {% if entry.entry_type != '3' %}
+                                {{ entry.get_entry_type_display }}
+                            {% else %}
+                                Unknown Pest or Disease
+                            {% endif %}
+
+                            {% if entry.occurence_date %}
+                                occured on {{entry.occurence_date}}
+                            {% else %}
+                                reported on {{entry.date_added}}
+                            {% endif %}
+
+                        {% endif %}
+                    </h4>
+            </div>
+        </div>
+    </div>
+
+    {% if entry.images %}
+    <div class="row">
+        <div class="small-8 columns vp-center">
+            {% if entry.images.all|length == 1 %}
+                <div class="image-container image-container-1-image">
+                    {% for img in entry.images.all %}
+                        <a href="{{img.url}}"><img src="{{img.thumbnail_200x200.url}}" style="height:120px; width: 200px;"></a>
+                    {% endfor %}
+                </div>
+            {% elif entry.images.all|length == 2 %}
+                <div class="image-container image-container-2-images">
+                    {% for img in entry.images.all %}
+                        <a href="{{img.url}}"><img src="{{img.thumbnail_200x200.url}}" style="height:120px; width: 200px;"></a>
+                    {% endfor %}
+                </div>
+            {% elif entry.images.all|length == 3 %}
+                <div class="image-container image-container-3-images">
+                    {% for img in entry.images.all %}
+                        <a href="{{img.url}}"><img src="{{img.thumbnail_200x200.url}}" style="height:120px; width: 200px;"></a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="slick-image-container">
+                    {% for img in entry.images.all %}
+                        <a href="{{img.url}}"><img src="{{img.thumbnail_200x200.url}}" style="height:120px; width: 200px;"></a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row" style="margin-bottom: 50px; margin-top: 10px;">
+        <div class="small-8 columns vp-center">
+            <table style="width: 100%;">
+                <tbody>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td class="vp-table-head">CROP NAME</td>
+                        <td>
+                            {{ entry.crop_field.crop_name }}
+                        </td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td class="vp-table-head">PEST OR DISEASE</td>
+                        <td>
+                            {{ entry.get_entry_type_display|upper }}
+                        </td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td class="vp-table-head">OCCURANCE DATE</td>
+                        <td>
+                            {% if entry.occurence_date %}
+                                {{entry.occurence_date}}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td class="vp-table-head">ESTIMATION OF AFFECTED AREA</td>
+                        <td>
+                            {% if entry.damage_estimation %}
+                                {{entry.damage_estimation}}%
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td class="vp-table-head">PESTICIDE USE</td>
+                        <td>
+                            {% if  entry.pesticide_use|length %}
+                                {% if entry.pesticide_use|length > 400 %}
+                                    <ul class="accordion" data-accordion style="margin-left: 0;">
+                                        <li class="accordion-navigation">
+                                            <a href="#panel-pesticide-use-{{entry.id}}" class="vp-intable-accordion-panel-href">show/hide</a>
+                                            <div id="panel-pesticide-use-{{entry.id}}" class="content vp-intable-panel-content">
+                                                {{entry.pesticide_use}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                {% else %}
+                                    {{entry.pesticide_use}}
+                                {% endif %}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td class="vp-table-head">WAS CROP HARVESTED?</td>
+                        <td>
+                            {% if entry.is_harvested != None %}
+                                {% if entry.is_harvested %}
+                                    YES
+                                {% else %}
+                                    NO
+                                {% endif %}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    {% if entry.is_harvested %}
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td class="vp-table-head">HARVEST DATE</td>
+                            <td>
+                                {% if entry.harvest_date %}
+                                    {{entry.harvest_date}}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ddd;">
+                            <td class="vp-table-head">ESTIMATION OF DESTROYED HARVEST</td>
+                            <td>
+                                {% if entry.harvest_destroyed %}
+                                    {{entry.harvest_destroyed}}%
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td class="vp-table-head">ADDITIONAL INFO</td>
+                        <td>
+                            {% if  entry.additional_info|length %}
+                                {% if entry.additional_info|length > 400 %}
+                                    <ul class="accordion" data-accordion style="margin-left: 0;">
+                                        <li class="accordion-navigation">
+                                            <a href="#panel-additional-info-{{entry.id}}" class="vp-intable-accordion-panel-href">show/hide</a>
+                                            <div id="panel-additional-info-{{entry.id}}" class="content vp-intable-panel-content">
+                                                {{entry.additional_info}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                {% else %}
+                                    {{entry.additional_info}}
+                                {% endif %}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td class="vp-table-head">FIRST TIME REPORTED</td>
+                        <td>{{entry.date_added}}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td class="vp-table-head">LAST MODIFIED</td>
+                        <td>{{entry.date_edited}}</td>
+                    </tr>
+                    <tr>
+                        <td class="vp-table-head">CREATED BY</td>
+                        <td>{{entry.creator.username}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endfor %}
+</div>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        $(document).foundation();
+
+        $('.slick-image-container').slick({
+            infinite: true,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            dots: true,
+            arrows: true
+        });
+    });
+</script>
+{% endblock extra_js %}

@@ -29,13 +29,33 @@ VP.map.prototype = {
     },
 
     initMap: function() {
+        var self = this;
+
         // create a map in the "map" div, set the view to a given place and zoom
-        this.map = L.map(this.options.map_id).setView([0, 0], 3);
+        this.map = L.map(this.options.map_id);
+
+        this.setMapHeight();
+
+        this.map.setView([0, 0], 3);
 
         // add an OpenStreetMap tile layer
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(this.map);
+
+        // On resize set new map height
+        $(window).on('resize', function() {
+            self.setMapHeight();
+        });
+
+    },
+
+    setMapHeight: function() {
+        var window_height = $(window).height();
+        var topmenu_height = $('#topmenu').height();
+
+        // Set map height. Map extends to the bottom of the window.
+        $('#' + this.options.map_id).css('height', window_height - topmenu_height - 40);
     },
 
     initCropFields: function() {

@@ -2,8 +2,14 @@
 
 {% block content %}
 
-<a href="{% url 'add-crop-field' %}" class="button tiny" style="margin-bottom: 5px; margin-top: 5px;">Add Crop Field</a>
-<a href="{% url 'add-entry' %}" class="button tiny" style="margin-bottom: 5px; margin-top: 5px;">Add Entry</a>
+<div id="map-actions">
+    <a href="{% url 'add-crop-field' %}" id="add-crop-field-btn" class="button tiny">
+        ADD CROP FIELD
+    </a>
+    <a href="{% url 'add-entry' %}" id="add-entry-btn" class="button tiny">
+        REPORT PEST OR DISEASE
+    </a>
+</div>
 
 <div id="explore-map"></div>
 

@@ -220,7 +220,7 @@ class IndividualEntryDetailView(DetailView):
 
 class CropFieldEntriesListView(DetailView):
     model = CropField
-    template_name = 'crop_field_entires.html'
+    template_name = 'crop_field_entries.html'
 
     def get_context_data(self, **kwargs):
         context = super(CropFieldEntriesListView, self).get_context_data(

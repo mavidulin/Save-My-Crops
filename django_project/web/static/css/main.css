@@ -37,9 +37,6 @@ body {
 .vp-item-active {
     background-color: #272727 !important;
 }
-#explore-map {
-    height: 550px;
-}
 
 .vp-size-17 {
     font-size: 17px;
@@ -118,6 +115,55 @@ body {
     left: 7px;
 }
 
+.image-container {
+    border: 1px solid #CFCFCF;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #F8F8F8;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+.image-container-3-images {
+    padding-left: 25px;
+}
+.image-container-2-images {
+    padding-left: 130px;
+}
+.image-container-1-image {
+    padding-left: 220px;
+}
+
 .vp-table-head {
     width: 200px;
+}
+
+#map-actions {
+    position:absolute;
+    top: 60px;
+    right: 50px;
+    z-index: 10;
+    background-color: #EBEBEB;
+    border: 1px solid #B8B8B8;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    padding: 10px;
+}
+
+#add-crop-field-btn,
+#add-entry-btn {
+    margin-bottom: 5px;
+    margin-top: 5px;
+    font-weight: bold;
+    font-size:12px;
+    color: #333333;
+}
+
+#add-crop-field-btn {
+    background-color:#66C266;
+}
+
+#add-entry-btn {
+    background-color:#FF6666;
 }
