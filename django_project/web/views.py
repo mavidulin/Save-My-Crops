@@ -331,30 +331,22 @@ class MobileLoginView(
     JsonRequestResponseMixin,
         View):
     http_method_names = [u'get', u'post']
-    require_json = True
+    # require_json = True
 
     def post(self, request, *args, **kwargs):
-        LOG.error('We have error Bok')
-        response_data = {
-            'test': 'test'
-        }
-        return self.render_json_response(response_data)
-        # try:
-        #     username = self.request_json[u'username']
-        #     password = self.request_json[u'password']
+        try:
+            username = self.request_json[u'username']
+            password = self.request_json[u'password']
 
-        #     user = User.objects.get(username=username)
-        #     if user.password == password:
-        #         response_data = {
-        #             'test': 'test'
-        #         }
-        #         return self.render_json_response(response_data)
-        #     else:
-        #         error_dict = {u"message": (u"Wrong usrename or password")}
-        #         return self.render_bad_request_response(error_dict)
-
-        #     # lat = self.request_json[u"lat"]
-        #     # lng = self.request_json[u"lng"]
-        # except KeyError:
-        #     error_dict = {u"message": (u"You must submit login creditals")}
-        #     return self.render_bad_request_response(error_dict)
+            user = User.objects.get(username=username)
+            if user.password == password:
+                response_data = {
+                    'test': 'test ok'
+                }
+                return self.render_json_response(response_data)
+            else:
+                error_dict = {u"message": (u"Wrong usrename or password")}
+                return self.render_bad_request_response(error_dict)
+        except KeyError:
+            error_dict = {u"message": (u"You must submit login creditals")}
+            return self.render_bad_request_response(error_dict)
