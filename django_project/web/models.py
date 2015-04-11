@@ -226,3 +226,9 @@ class Alert(models.Model):
         blank=True,
         auto_now_add=True
     )
+
+    def get_alert_css_class(self):
+        if self.is_viewed is False:
+            return 'new-alert'
+        else:
+            return 'old-alert'

@@ -167,3 +167,12 @@ body {
 #add-entry-btn {
     background-color:#FF6666;
 }
+
+.new-alert {
+    font-weight: bold;
+    color: #FF3333;
+}
+
+.old-alert {
+    color: #808080;
+}

@@ -12,13 +12,20 @@ from django.views.generic import (
     CreateView,
     UpdateView,
     DeleteView,
-    ListView
+    ListView,
+    View
 )
 
 from rest_framework import viewsets
 from rest_framework.renderers import JSONRenderer
 
-from braces.views import LoginRequiredMixin
+from braces.views import (
+    JsonRequestResponseMixin,
+    CsrfExemptMixin,
+    LoginRequiredMixin
+)
+
+from django.contrib.auth.models import User
 
 from .models import CropField, Entry, Alert
 
@@ -306,6 +313,43 @@ class AlertsView(ListView):
     def get_context_data(self, **kwargs):
         context = super(AlertsView, self).get_context_data(**kwargs)
 
-        context['alerts'] = Alert.objects.filter(user=self.request.user)
+        alerts = Alert.objects.filter(
+            user=self.request.user
+        ).order_by('creation_time')
+
+        context['alerts'] = alerts
+
+        for alert in alerts:
+            alert.is_viewed = True
+            alert.save()
 
         return context
+
+
+class MobileLoginView(
+    CsrfExemptMixin,
+    JsonRequestResponseMixin,
+        View):
+    http_method_names = [u'get', u'post']
+    require_json = True
+
+    def post(self, request, *args, **kwargs):
+        try:
+            username = self.request_json[u'username']
+            password = self.request_json[u'password']
+
+            user = User.objects.get(username=username)
+            if user.password == password:
+                response_data = {
+                    'test': 'test'
+                }
+                return self.render_json_response(response_data)
+            else:
+                error_dict = {u"message": (u"Wrong usrename or password")}
+                return self.render_bad_request_response(error_dict)
+
+            # lat = self.request_json[u"lat"]
+            # lng = self.request_json[u"lng"]
+        except KeyError:
+            error_dict = {u"message": (u"You must submit login creditals")}
+            return self.render_bad_request_response(error_dict)

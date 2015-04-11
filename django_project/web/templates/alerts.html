@@ -6,10 +6,42 @@
 <div class="row" style="top: 15px;position:relative;">
 
     <div class="row" style="margin-bottom: 15px;">
-        <div class="small-8 columns vp-center">
-            {% for alert in alerts %}
-                <p>{{alert.crop_field.display_name}} - {{alert.creation_date}}</p>
-            {% endfor %}
+        <div class="small-12 columns">
+            <h4>Alert Notifications:</h4>
+            <table style="width: 100%;">
+                <thead>
+                    <th>Threat type</th>
+                    <th>Threat name</th>
+                    <th>Threat occured</th>
+                    <th>Reported</th>
+                    <th>Source Crop Field</th>
+                    <th>Affected Crop Field</th>
+                </thead>
+                <tbody>
+                    {% for alert in alerts %}
+                        <tr class="{{alert.get_alert_css_class}}">
+                            <td class="{{alert.get_alert_css_class}}">{{alert.entry.get_entry_type_display}}</td>
+                            <td class="{{alert.get_alert_css_class}}">
+                                {% if alert.entry.pest_disease_name %}
+                                    {{alert.entry.pest_disease_name}}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td class="{{alert.get_alert_css_class}}">{{alert.entry.occurence_date}}</td>
+                            <td class="{{alert.get_alert_css_class}}">{{alert.creation_time}}</td>
+                            <td class="{{alert.get_alert_css_class}}">
+                                {% if alert.entry.crop_field %}
+                                    {{alert.entry.crop_field.display_name}}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td class="{{alert.get_alert_css_class}}">{{alert.crop_field.display_name}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 
