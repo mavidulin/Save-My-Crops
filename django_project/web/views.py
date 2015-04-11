@@ -334,9 +334,10 @@ class MobileLoginView(
     require_json = True
 
     def post(self, request, *args, **kwargs):
+        LOG.error('We have error Bok')
         response_data = {
-                    'test': 'test'
-                }
+            'test': 'test'
+        }
         return self.render_json_response(response_data)
         # try:
         #     username = self.request_json[u'username']
