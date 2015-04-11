@@ -367,7 +367,9 @@ class MobileLoginView(
 
             # For Project Prototype purposes.
             # TODO: Remove anything related to plain text passwords.
-            if self.verify(password, user.password):
+            # if self.verify(password, user.password):
+            # CHANGE THIS!!!!
+            if password == user.password:
                 crop_fields_json = JSONRenderer().render(
                     CropFieldMobileSerializer(
                         user.crop_fields, many=True).data
@@ -381,8 +383,8 @@ class MobileLoginView(
                     'userId': user.id,
                     'userName': user.username,
                     'userEmail': user.email,
-                    'cropFieldsNum': user.crop_fields__count,
-                    'reportNum': user.entries__count,
+                    'cropFieldsNum': user.crop_fields.count(),
+                    'reportNum': user.entries.count(),
                     'cropFields': crop_fields_json,
                     'reports': individual_entries_json
                 }
