@@ -48,3 +48,18 @@
 </div>
 
 {% endblock content %}
+
+{% block extra_js %}
+<script type="text/javascript">
+
+    $(document).on('ready', function() {
+        $.ajax({
+            url: '/alerts-page-viewed',
+            success: function(response) {
+                console.log('success');
+            }
+        });
+    });
+
+</script>
+{% endblock extra_js %}

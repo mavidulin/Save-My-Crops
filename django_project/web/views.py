@@ -27,7 +27,8 @@ from rest_framework.renderers import JSONRenderer
 from braces.views import (
     JsonRequestResponseMixin,
     CsrfExemptMixin,
-    LoginRequiredMixin
+    LoginRequiredMixin,
+    JSONResponseMixin
 )
 
 from django.contrib.auth.models import User
@@ -320,15 +321,9 @@ class AlertsView(ListView):
     def get_context_data(self, **kwargs):
         context = super(AlertsView, self).get_context_data(**kwargs)
 
-        alerts = Alert.objects.filter(
+        context['alerts'] = Alert.objects.filter(
             user=self.request.user
         ).order_by('creation_time')
-
-        context['alerts'] = alerts
-
-        # for alert in alerts:
-        #     alert.is_viewed = True
-        #     alert.save()
 
         return context
 
@@ -395,3 +390,16 @@ class MobileLoginView(
         except:
             error_dict = {u"message": (u"You must submit login creditals")}
             return self.render_bad_request_response(error_dict)
+
+
+class AlertsPageViewed(JSONResponseMixin, View):
+    json_dumps_kwargs = {u"indent": 2}
+
+    def get(self, request, *args, **kwargs):
+        user = self.request.user
+        print 'here'
+        for alert in user.alerts.filter(is_viewed=False):
+            alert.is_viewed = True
+            alert.save()
+
+        return self.render_json_response({})
