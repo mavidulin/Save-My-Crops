@@ -176,3 +176,24 @@ body {
 .old-alert {
     color: #808080;
 }
+
+.circle-div {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: #FF3333;
+    margin-left: 50px;
+    border: 2px solid #E6E6E6;
+    color: #E6E6E6;
+    font-weight: bold;
+}
+
+.circle-num {
+    font-size: 12px;
+    margin-left: 5px;
+    position: relative;
+    top: -5px;
+}

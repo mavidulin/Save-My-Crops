@@ -323,7 +323,7 @@ class AlertsView(ListView):
 
         context['alerts'] = Alert.objects.filter(
             user=self.request.user
-        ).order_by('creation_time')
+        ).order_by('-creation_time')
 
         return context
 
@@ -397,7 +397,7 @@ class AlertsPageViewed(JSONResponseMixin, View):
 
     def get(self, request, *args, **kwargs):
         user = self.request.user
-        print 'here'
+
         for alert in user.alerts.filter(is_viewed=False):
             alert.is_viewed = True
             alert.save()

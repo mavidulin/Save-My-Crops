@@ -25,6 +25,11 @@ INSTALLED_APPS += (
     'accounts'
 )
 
+# Project template tags
+INSTALLED_APPS += (
+    'web.templatetags.app_filters',
+)
+
 
 PIPELINE_JS = {
     'contrib': {

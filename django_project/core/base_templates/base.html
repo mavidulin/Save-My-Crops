@@ -1,4 +1,6 @@
 {% load pipeline %}
+{% load app_filters %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,6 +44,11 @@
             <li class="divider"></li>
             {% if user.is_authenticated %}
             <li>
+                {% if user.alerts|get_new_alerts_num > 0 %}
+                    <div class="circle-div">
+                        <span class="circle-num">{{user.alerts|get_new_alerts_num}}</span>
+                    </div>
+                {% endif %}
                 <a href="{% url 'alerts-page' %}">Alerts</a>
             </li>
             <li class="divider"></li>
