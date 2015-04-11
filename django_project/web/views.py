@@ -392,6 +392,19 @@ class MobileLoginView(
             return self.render_bad_request_response(error_dict)
 
 
+class MobileAddEntryView(
+    CsrfExemptMixin,
+    PlainTextPasswordHasher,
+    JsonRequestResponseMixin,
+        View):
+
+    def post(self, request, *args, **kwargs):
+        print request.POST
+        # username = request.POST.get('username')
+        # password = request.POST.get('password')
+        return self.render_json_response({'flag': 'success'})
+
+
 class AlertsPageViewed(JSONResponseMixin, View):
     json_dumps_kwargs = {u"indent": 2}
 

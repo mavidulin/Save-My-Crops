@@ -20,6 +20,7 @@ from .views import (
     AlertsPageViewed,
 
     MobileLoginView,
+    MobileAddEntryView
 )
 
 
@@ -85,6 +86,10 @@ urlpatterns = patterns(
     url(
         r'^mobile-login/$',
         MobileLoginView.as_view()
+    ),
+    url(
+        r'^mobile-add-entry/$',
+        MobileAddEntryView.as_view()
     ),
     url(
         r'^alerts-page-viewed/$',
