@@ -38,7 +38,9 @@ from .forms import CropFieldForm, EntryForm
 
 from .serializers import (
     CropFieldSerializer,
-    IndividualEntriesSerializer
+    IndividualEntriesSerializer,
+    CropFieldMobileSerializer,
+    IndividualEntriesMobileSerializer,
 )
 
 
@@ -367,10 +369,12 @@ class MobileLoginView(
             # TODO: Remove anything related to plain text passwords.
             if self.verify(password, user.password):
                 crop_fields_json = JSONRenderer().render(
-                    CropFieldSerializer(user.crop_fields, many=True).data
+                    CropFieldMobileSerializer(
+                        user.crop_fields, many=True).data
                 )
                 individual_entries_json = JSONRenderer().render(
-                    IndividualEntriesSerializer(user.entries, many=True).data
+                    IndividualEntriesMobileSerializer(
+                        user.entries, many=True).data
                 )
 
                 response_data = {

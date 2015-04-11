@@ -62,3 +62,52 @@ class IndividualEntriesSerializer(serializers.ModelSerializer):
             'id': obj.creator.id,
             'name': obj.creator.username
         }
+
+
+class CropFieldMobileSerializer(serializers.ModelSerializer):
+    # calls the get_number_of_incidents method. "get" is prepended by default.
+    number_of_incidents = serializers.SerializerMethodField()
+    creator_object = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CropField
+        fields = (
+            'id',
+            'crop_name',
+            'area',
+            'number_of_incidents',
+            'creator_object'
+        )
+
+    def get_detail_page_url(self, obj):
+        return reverse('crop-field-detail', args=[obj.pk])
+
+    def get_number_of_incidents(self, obj):
+        return obj.entries.all().count()
+
+    def get_creator_object(self, obj):
+        return {
+            'id': obj.creator.id,
+            'name': obj.creator.username
+        }
+
+
+class IndividualEntriesMobileSerializer(serializers.ModelSerializer):
+    creator_object = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Entry
+        fields = (
+            'id',
+            'location',
+            'pest_disease_name',
+            'occurence_date',
+            'damage_estimation',
+            'creator_object'
+        )
+
+    def get_creator_object(self, obj):
+        return {
+            'id': obj.creator.id,
+            'name': obj.creator.username
+        }
