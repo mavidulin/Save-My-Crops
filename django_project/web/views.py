@@ -6,6 +6,11 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
 from django.contrib.sites.shortcuts import get_current_site
+
+# For Project Prototype purposes.
+# TODO: Remove anything related to plain text passwords.
+from django.contrib.auth.hashers import BasePasswordHasher
+
 from django.views.generic import (
     TemplateView,
     DetailView,
@@ -326,8 +331,26 @@ class AlertsView(ListView):
         return context
 
 
+class PlainTextPasswordHasher(BasePasswordHasher):
+    """
+    For Project Prototype purposes.
+    TODO: Remove anything related to plain text passwords.
+    """
+    algorithm = 'plain'
+
+    def salt(self):
+        return ''
+
+    def verify(self, password, encoded):
+        return self.encode(password) == encoded
+
+    def encode(self, password, salt=None):
+        return "%s$1$%s" % (self.algorithm, password)
+
+
 class MobileLoginView(
     CsrfExemptMixin,
+    PlainTextPasswordHasher,
     JsonRequestResponseMixin,
         View):
     http_method_names = [u'get', u'post']
@@ -335,18 +358,34 @@ class MobileLoginView(
 
     def post(self, request, *args, **kwargs):
         try:
-            username = self.request_json[u'username']
-            password = self.request_json[u'password']
+            username = request.POST.get('username')
+            password = request.POST.get('password')
 
             user = User.objects.get(username=username)
-            if user.password == password:
+
+            # For Project Prototype purposes.
+            # TODO: Remove anything related to plain text passwords.
+            if self.verify(password, user.password):
+                crop_fields_json = JSONRenderer().render(
+                    CropFieldSerializer(user.crop_fields, many=True).data
+                )
+                individual_entries_json = JSONRenderer().render(
+                    IndividualEntriesSerializer(user.entries, many=True).data
+                )
+
                 response_data = {
-                    'test': 'test ok'
+                    'userId': user.id,
+                    'userName': user.username,
+                    'userEmail': user.email,
+                    'cropFieldsNum': user.crop_fields__count,
+                    'reportNum': user.entries__count,
+                    'cropFields': crop_fields_json,
+                    'reports': individual_entries_json
                 }
                 return self.render_json_response(response_data)
             else:
                 error_dict = {u"message": (u"Wrong usrename or password")}
                 return self.render_bad_request_response(error_dict)
-        except KeyError:
+        except:
             error_dict = {u"message": (u"You must submit login creditals")}
             return self.render_bad_request_response(error_dict)
