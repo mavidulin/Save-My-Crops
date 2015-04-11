@@ -43,6 +43,8 @@ PIPELINE_JS = {
             'js/leaflet.draw.js',
             'js/wicket.js',
             'js/wicket-leaflet.js',
+            'js/leaflet-providers.js',
+            'js/Google.js',
             'js/slick.min.js',
             'js/app.js',
         ),

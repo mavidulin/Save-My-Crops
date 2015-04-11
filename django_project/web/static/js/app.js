@@ -55,10 +55,14 @@ VP.map.prototype = {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         });
 
+        var openTopoMap = L.tileLayer.provider('OpenTopoMap');
+        var googleLayer = new L.Google('SATELLITE');
+
         // Add layer for use in layer control.
-        this.map.vp_options.baseLayers['OSM'] = osmTileLayer;
+        this.map.vp_options.baseLayers['Google Satellite'] = googleLayer;
+        this.map.vp_options.baseLayers['OpenTopoMap'] = openTopoMap;
         // Add layer to make it initially active on map.
-        this.map.addLayer(osmTileLayer);
+        this.map.addLayer(googleLayer);
 
         // On resize set new map height
         $(window).on('resize', function() {
@@ -124,6 +128,7 @@ VP.map.prototype = {
         polygon.setStyle({
             color: color,
             fillcolor: color,
+            fillOpacity: 0.6,
             weight: 1
         });
     },
@@ -135,7 +140,6 @@ VP.map.prototype = {
             var number_of_incidents = 0;
         }
 
-        console.log(cropField)
         var html = '<div class="popup-content-wrapper">' +
             '<a href="' + cropField.url_detail + '"class="popup-heading">' +
                 '<i class="fi-arrow-right"></i> ' +
