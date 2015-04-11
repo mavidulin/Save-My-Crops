@@ -8,7 +8,8 @@ INSTALLED_APPS += (
     'registration',
     'rest_framework',
     'sorl.thumbnail',
-    'topnotchdev.files_widget'
+    'topnotchdev.files_widget',
+    'corsheaders'
 )
 
 # define template function (example for underscore)
@@ -45,3 +46,6 @@ REST_FRAMEWORK = {
 
 # Files widget required option
 THUMBNAIL_DEBUG = False
+
+# django cors headers settings
+CORS_ORIGIN_ALLOW_ALL = True

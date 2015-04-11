@@ -8,4 +8,5 @@ django-registration-redux==1.1
 django-mailgun
 djangorestframework
 git+git://github.com/mavidulin/django-files-widget.git
+django-cors-headers
 # raven
