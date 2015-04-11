@@ -35,11 +35,11 @@
         <ul class="left">
             <li class="divider"></li>
             <li>
-                <a href="{% url 'homepage' %}">Home</a>
+                <a href="{% url 'homepage' %}">HOME</a>
             </li>
             <li class="divider"></li>
             <li>
-                <a href="{% url 'map' %}">Explore Map</a>
+                <a href="{% url 'map' %}">EXPLORE MAP</a>
             </li>
             <li class="divider"></li>
             {% if user.is_authenticated %}
@@ -49,12 +49,12 @@
                         <span class="circle-num">{{user.alerts|get_new_alerts_num}}</span>
                     </div>
                 {% endif %}
-                <a href="{% url 'alerts-page' %}">Alerts</a>
+                <a href="{% url 'alerts-page' %}">ALERTS</a>
             </li>
             <li class="divider"></li>
             {% endif %}
             <li>
-                <a href="#">How To</a>
+                <a href="#">ABOUT</a>
             </li>
             <li class="divider"></li>
         </ul>

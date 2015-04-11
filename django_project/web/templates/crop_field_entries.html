@@ -9,6 +9,7 @@
     <div class="row">
         <div class="small-8 columns vp-center" style="border-bottom: 2px solid black; margin-bottom: 30px;">
             <div class="row">
+                <div class="small-11 columns" style="margin-left: -15px;">
                     <h4>
                         {% if entry.pest_disease_name|length %}
                             {{entry.pest_disease_name}}
@@ -29,6 +30,12 @@
 
                         {% endif %}
                     </h4>
+                </div>
+                {% if entry.creator.id == user.id %}
+                    <div class="small-1 column" style="margin-left: -15px;">
+                        <a href="{% url 'edit-entry' entry.id %}"><i class="fi-page-edit vp-size-28"></i></a>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

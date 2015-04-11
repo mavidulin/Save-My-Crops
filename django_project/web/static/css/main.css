@@ -44,6 +44,9 @@ body {
 .vp-size-26 {
     font-size: 26px;
 }
+.vp-size-28 {
+    font-size: 28px;
+}
 .vp-trash-icon {
     color: #FF6666;
 }
@@ -165,7 +168,7 @@ body {
 }
 
 #add-entry-btn {
-    background-color:#FF6666;
+    background-color:#E4513A;
 }
 
 .new-alert {
@@ -196,4 +199,23 @@ body {
     margin-left: 5px;
     position: relative;
     top: -5px;
+}
+
+.popup-heading {
+    font-weight: bold;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #4C4C4C;
+}
+
+.popup-content-wrapper p {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 13px;
+    color: #4C4C4C;
+}
+
+.popup-prop {
+    font-size: 12px;
 }

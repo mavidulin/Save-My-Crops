@@ -81,27 +81,16 @@ VP.map.prototype = {
         var otherCropFields = [];
 
         $.each(this.options.cropFields, function() {
-            var lealfetPolygon = self.wicketWkt.read(this.area).toObject();
+            var leafletPolygon = self.wicketWkt.read(this.area).toObject();
             var color;
 
-            if (this.number_of_incidents === 0) {
-                color = '#89E189';
-            } else {
-                color = '#FF3333';
-            }
-
-            lealfetPolygon
-                .bindPopup(this.crop_name)
-                .setStyle({
-                    color: color,
-                    fillcolor: color,
-                    weight: 1
-                });
+            self.setCropFieldStyle(leafletPolygon, this);
+            self.setCropFieldPopup(leafletPolygon, this);
 
             if (this.creator_object.id === self.options.currentUserId) {
-                myCropFields.push(lealfetPolygon);
+                myCropFields.push(leafletPolygon);
             } else {
-                otherCropFields.push(lealfetPolygon);
+                otherCropFields.push(leafletPolygon);
             }
         });
 
@@ -125,21 +114,66 @@ VP.map.prototype = {
         }
     },
 
+    setCropFieldStyle: function(polygon, cropField) {
+        if (cropField.number_of_incidents === 0) {
+            color = '#009900';
+        } else {
+            color = '#FF3333';
+        }
+
+        polygon.setStyle({
+            color: color,
+            fillcolor: color,
+            weight: 1
+        });
+    },
+
+    setCropFieldPopup: function(polygon, cropField) {
+        if (cropField.number_of_incidents) {
+            var number_of_incidents = cropField.number_of_incidents;
+        } else {
+            var number_of_incidents = 0;
+        }
+
+        console.log(cropField)
+        var html = '<div class="popup-content-wrapper">' +
+            '<a href="' + cropField.url_detail + '"class="popup-heading">' +
+                '<i class="fi-arrow-right"></i> ' +
+                cropField.crop_name + '</a>' +
+                '<p><span class="popup-prop">REPORTED PESTS AND DISEASES:</span> ' +
+                number_of_incidents + '</p>' +
+                '<p><span class="popup-prop">CREATED BY:</span> ' +
+                cropField.creator_object.name + '</p>';
+
+        if (this.options.currentUserId === cropField.creator_object.id) {
+            html += '<a href="' + cropField.url_edit + '">edit...</a>'
+        }
+
+        html += '</div>';
+
+        polygon.bindPopup(html);
+    },
+
     initIndividualEntries: function() {
         var self = this;
         var myEntries = [];
         var otherEntries = [];
 
         $.each(this.options.individualEntries, function() {
-            var lealfetPoint = self.wicketWkt.read(this.location).toObject();
+            var leafletPoint = self.wicketWkt.read(this.location).toObject();
 
-            lealfetPoint
-                .bindPopup('test');
+            var leafletPoint = L.circleMarker(
+                [leafletPoint._latlng.lat, leafletPoint._latlng.lng]
+            );
+
+            self.setIndividualEntryStyle(leafletPoint, this);
+            self.setIndividualEntryPopup(leafletPoint, this);
+
 
             if (this.creator_object.id === self.options.currentUserId) {
-                myEntries.push(lealfetPoint);
+                myEntries.push(leafletPoint);
             } else {
-                otherEntries.push(lealfetPoint);
+                otherEntries.push(leafletPoint);
             }
         });
 
@@ -161,6 +195,49 @@ VP.map.prototype = {
             this.map.vp_options.overlayLayers['Pests and Diseases'] = otherEntriesLayer;
             this.map.addLayer(otherEntriesLayer);
         }
+    },
+
+    setIndividualEntryStyle: function(point, entry) {
+        point.setStyle({
+            stroke: true,
+            color: '#FFFFFF',
+            weight: 2,
+            opacity: 1,
+            fill: true,
+            fillColor: '#FF1919',
+            fillOpacity: 0.8
+        });
+    },
+
+    setIndividualEntryPopup: function(point, entry) {
+        if (entry.type_object.typeId === '3') {
+            var type = 'Unknown Pest or Disease';
+        } else {
+            var type = entry.type_object.name;
+        }
+
+        var html = '<div class="popup-content-wrapper">';
+
+        if (entry.pest_disease_name != "") {
+            html += '<a href="' + entry.url_detail + '"class="popup-heading">' +
+                '<i class="fi-arrow-right"></i> ' +
+                entry.pest_disease_name + '</a>' +
+                '<p><span class="popup-prop">TYPE:</span> ' + type + '</p>';
+        } else {
+            html += '<a href="' + entry.url_detail + '" class="popup-heading">' +
+                '<i class="fi-arrow-right"></i> ' + type + '</a>';
+        }
+
+        html += '<p><span class="popup-prop">OCCURENCE DATE:</span> ' + entry.occurence_date + '</p>' +
+            '<p><span class="popup-prop">CREATED BY:</span> ' + entry.creator_object.name + '</p>';
+
+        if (this.options.currentUserId === entry.creator_object.id) {
+            html += '<a href="' + entry.url_edit + '">edit...</a>'
+        }
+
+        html += '</div>';
+
+        point.bindPopup(html);
     },
 
     initDrawControl: function() {
