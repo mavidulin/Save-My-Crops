@@ -77,7 +77,10 @@ class MapPageView(SendFeaturesToContext, TemplateView):
     template_name = 'map.html'
 
 
-class CropFieldCreateView(SendFeaturesToContext, CreateView):
+class CropFieldCreateView(
+    LoginRequiredMixin,
+    SendFeaturesToContext,
+        CreateView):
     model = CropField
     form_class = CropFieldForm
     template_name = 'crop_field_form.html'
@@ -98,10 +101,32 @@ class CropFieldCreateView(SendFeaturesToContext, CreateView):
         return reverse('map')
 
 
-class CropFieldUpdateView(SendFeaturesToContext, UpdateView):
+class CropFieldUpdateView(
+    LoginRequiredMixin,
+    SendFeaturesToContext,
+        UpdateView):
     model = CropField
     form_class = CropFieldForm
     template_name = 'crop_field_form.html'
+    reject_url = '/map'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.object.creator == self.request.user:
+            return super(CropFieldUpdateView, self).get(
+                request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(self.reject_url)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.object.creator == self.request.user:
+            return super(CropFieldUpdateView, self).post(
+                request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(self.reject_url)
 
     def get_context_data(self, **kwargs):
         context = super(CropFieldUpdateView, self).get_context_data(**kwargs)
@@ -119,18 +144,34 @@ class CropFieldDeleteView(LoginRequiredMixin, DeleteView):
     success_url = '/map'
     template_name = 'confirm_delete_crop_field.html'
 
-    def post(self, request, *args, **kwargs):
-        if "cancel" in request.POST:
-            url = self.get_cancel_url()
-            return HttpResponseRedirect(url)
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.object.creator == self.request.user:
+            return super(CropFieldDeleteView, self).get(
+                request, *args, **kwargs)
         else:
-            return super(CropFieldDeleteView, self).post(
-                request,
-                *args,
-                **kwargs)
+            # Return to map
+            return HttpResponseRedirect(self.success_url)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.object.creator == self.request.user:
+            if "cancel" in request.POST:
+                url = self.get_cancel_url()
+                return HttpResponseRedirect(url)
+            else:
+                return super(CropFieldDeleteView, self).post(
+                    request,
+                    *args,
+                    **kwargs)
+        else:
+            # Redirect to map.
+            return HttpResponseRedirect(self.success_url)
 
     def get_cancel_url(self):
-        return reverse('map')
+        return reverse('edit-crop-field', kwargs={'pk': self.object.id})
 
 
 class EntryFormViewMixin(object):
@@ -144,7 +185,11 @@ class EntryFormViewMixin(object):
         return form_class(**kwargs)
 
 
-class EntryCreateView(SendFeaturesToContext, EntryFormViewMixin, CreateView):
+class EntryCreateView(
+    LoginRequiredMixin,
+    SendFeaturesToContext,
+    EntryFormViewMixin,
+        CreateView):
     model = Entry
     form_class = EntryForm
     template_name = 'entry_form.html'
@@ -239,10 +284,33 @@ class EntryCreateView(SendFeaturesToContext, EntryFormViewMixin, CreateView):
         )
 
 
-class EntryUpdateView(SendFeaturesToContext, EntryFormViewMixin, UpdateView):
+class EntryUpdateView(
+    LoginRequiredMixin,
+    SendFeaturesToContext,
+    EntryFormViewMixin,
+        UpdateView):
     model = Entry
     form_class = EntryForm
     template_name = 'entry_form.html'
+    reject_url = '/map'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.object.creator == self.request.user:
+            return super(EntryUpdateView, self).get(
+                request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(self.reject_url)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.object.creator == self.request.user:
+            return super(EntryUpdateView, self).post(
+                request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(self.reject_url)
 
     def get_context_data(self, **kwargs):
         context = super(EntryUpdateView, self).get_context_data(**kwargs)
@@ -277,18 +345,34 @@ class EntryDeleteView(LoginRequiredMixin, DeleteView):
     success_url = '/map'
     template_name = 'confirm_delete_entry.html'
 
-    def post(self, request, *args, **kwargs):
-        if "cancel" in request.POST:
-            url = self.get_cancel_url()
-            return HttpResponseRedirect(url)
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.object.creator == self.request.user:
+            return super(EntryDeleteView, self).get(
+                request, *args, **kwargs)
         else:
-            return super(EntryDeleteView, self).post(
-                request,
-                *args,
-                **kwargs)
+            # Return to map
+            return HttpResponseRedirect(self.success_url)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.object.creator == self.request.user:
+            if "cancel" in request.POST:
+                url = self.get_cancel_url()
+                return HttpResponseRedirect(url)
+            else:
+                return super(EntryDeleteView, self).post(
+                    request,
+                    *args,
+                    **kwargs)
+        else:
+            # Redirect to map.
+            return HttpResponseRedirect(self.success_url)
 
     def get_cancel_url(self):
-        return reverse('map')
+        return reverse('edit-entry', kwargs={'pk': self.object.id})
 
 
 class CropFieldDetailView(DetailView):
@@ -314,7 +398,9 @@ class CropFieldEntriesListView(DetailView):
         return context
 
 
-class AlertsView(ListView):
+class AlertsView(
+    LoginRequiredMixin,
+        ListView):
     model = Alert
     template_name = 'alerts.html'
 
