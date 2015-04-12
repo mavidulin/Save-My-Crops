@@ -74,9 +74,10 @@ VP.map.prototype = {
     setMapHeight: function() {
         var window_height = $(window).height();
         var topmenu_height = $('#topmenu').height();
+        var footer_height = $('#footer').height();
 
         // Set map height. Map extends to the bottom of the window.
-        $('#' + this.options.map_id).css('height', window_height - topmenu_height - 40);
+        $('#' + this.options.map_id).css('height', window_height - topmenu_height - footer_height);
     },
 
     initCropFields: function() {
