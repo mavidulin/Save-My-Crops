@@ -56,7 +56,7 @@ VP.map.prototype = {
         });
 
         var openTopoMap = L.tileLayer.provider('OpenTopoMap');
-        var googleLayer = new L.Google('SATELLITE');
+        var googleLayer = new L.Google('HYBRID');
 
         // Add layer for use in layer control.
         this.map.vp_options.baseLayers['Google Satellite'] = googleLayer;
