@@ -502,3 +502,7 @@ class AlertsPageViewed(JSONResponseMixin, View):
             alert.save()
 
         return self.render_json_response({})
+
+
+class MobileAppView(TemplateView):
+    template_name = 'mobile_app.html'

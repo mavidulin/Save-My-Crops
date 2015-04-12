@@ -48,7 +48,8 @@ VP.map.prototype = {
         this.map.vp_options.overlayLayers = {};
 
         this.setMapHeight();
-        this.map.setView([0, 0], 3);
+        // this.map.setView([0, 0], 3);
+        this.map.setView([56.946678, 8.644009], 13);
 
         // add an OpenStreetMap tile layer
         var osmTileLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
