@@ -10,6 +10,7 @@ from django.contrib.sites.shortcuts import get_current_site
 # For Project Prototype purposes.
 # TODO: Remove anything related to plain text passwords.
 from django.contrib.auth.hashers import BasePasswordHasher
+from django.contrib.auth.hashers import check_password
 
 from django.views.generic import (
     TemplateView,
@@ -450,7 +451,7 @@ class MobileLoginView(
             # TODO: Remove anything related to plain text passwords.
             # if self.verify(password, user.password):
             # CHANGE THIS!!!!
-            if password == user.password:
+            if check_password(password, user.password):
                 crop_fields_json = JSONRenderer().render(
                     CropFieldMobileSerializer(
                         user.crop_fields, many=True).data
