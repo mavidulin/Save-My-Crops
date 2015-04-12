@@ -1,6 +1,39 @@
 {% extends 'base.html' %}
 
+{% block style %}
+<style type="text/css">
+    body {
+        background-image: url("");
+    }
+    body::after {
+      content: "";
+      background: url("{{STATIC_URL}}img/img_1.jpg") no-repeat center center fixed;
+      width: 100%;
+      opacity: 0.8;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      position: absolute;
+      z-index: -1;
+
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+</style>
+{% endblock style %}
+
 {% block content %}
-Welcome to homepage!
+<div class="row" style="text-align: center;">
+    <div class="small-6 columns vp-center" style="z-index:2;top: 80px;">
+        <h4 style="font-size: 20px;">DEDICATED TO SAVING YOUR CROPS</h4>
+        <h1 style="font-weight: bold;">SAVE MY CROPS</h1>
+        <a href="/map" class="button">START BY EXPLORING THE MAP</a>
+    </div>
+    <div class="small-6 columns vp-center" style="background-color:white;width:500px;height:265px;top:-150px; opacity: 0.7">
+    <div>
+</div>
 {% endblock content %}
 
